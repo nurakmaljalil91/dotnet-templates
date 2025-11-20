@@ -1,3 +1,4 @@
+# .NET Templates
 
 ```bash
 dotnet new install .

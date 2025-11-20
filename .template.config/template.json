@@ -1,0 +1,47 @@
+{
+    "author": "Nur Akmal Jalil",
+    "classifications": [
+        "Web",
+        "Solution",
+        "C#",
+        "API",
+        "DDD",
+        "PostgreSQL",
+        "Microservice"
+    ],
+    "identity": "com.cerxos.webapplicationtemplate",
+    "name": "Web Application Solution Template",
+    "shortName": "web-api-template",
+    "sourceName": "WebApplicationTemplate",
+    "preferNameDirectory": true,
+    "symbols": {
+        "safeName": {
+            "type": "parameter",
+            "datatype": "string",
+            "replaces": "WebApplicationTemplate",
+            "description": "Name for the generated solution and projects",
+            "defaultValue": "MyWebApp"
+        }
+    },
+    "sources": [
+        {
+            "source": "./",
+            "exclude": [
+                ".template.config/**",
+                "bin/**",
+                "obj/**",
+                "**/*.user",
+                "**/*.vs/**"
+            ]
+        }
+    ],
+    "primaryOutputs": [
+        {
+            "path": "WebApplicationTemplate/WebApplicationTemplate.slnx"
+        }
+    ],
+    "tags": {
+        "language": "C#",
+        "type": "solution"
+    }
+}
