@@ -1,6 +1,4 @@
-﻿using Domain.Enums;
-
-namespace Domain.Common;
+﻿namespace Domain.Common;
 
 public class BaseResponse
 {
