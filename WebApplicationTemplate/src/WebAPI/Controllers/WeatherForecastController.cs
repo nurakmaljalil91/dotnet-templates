@@ -1,7 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers
 {
+    /// <summary>
+    /// Controller for providing weather forecast data.
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
@@ -11,6 +14,10 @@ namespace WebAPI.Controllers
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         ];
 
+        /// <summary>
+        /// Gets a collection of weather forecasts.
+        /// </summary>
+        /// <returns>An enumerable of <see cref="WeatherForecast"/> objects.</returns>
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {

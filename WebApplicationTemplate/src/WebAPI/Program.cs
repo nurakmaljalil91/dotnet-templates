@@ -1,13 +1,15 @@
-﻿using Serilog;
-using Serilog.Events;
+﻿using Application;
+using Infrastructure;
 using System.Globalization;
+using Serilog;
+using Serilog.Events;
+using WebAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Read Serilog configuration from appsettings
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
-    .MinimumLevel.Override("Microsoft.AspNetCore.Hosting.Diagnostics", LogEventLevel.Warning)
     .Enrich.FromLogContext()
     .CreateLogger();
 
@@ -22,16 +24,25 @@ try
     builder.Host.UseSerilog();
 
     // Add services to the container.
-    builder.Services.AddControllers();
-    // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-    builder.Services.AddOpenApi();
+    builder.Services.AddApplicationServices();
+    builder.Services.AddInfrastructureServices(builder.Configuration);
+    builder.Services.AddWebAPIServices(builder.Configuration);
 
+    builder.Services.AddControllers();
+   
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
-        app.MapOpenApi();
+        // Add OpenAPI 3.0 document serving middleware
+        app.UseOpenApi();
+
+        // Add web UIs to interact with the document
+        app.UseSwaggerUi();
+
+        // Add ReDoc UI to interact with the document
+        app.UseReDoc(options => { options.Path = "/redoc"; });
     }
 
     app.UseHttpsRedirection();
@@ -45,8 +56,7 @@ try
 
     app.MapControllers();
 
-    app.Run();
-
+    await app.RunAsync();
 }
 catch (Exception ex)
 {
@@ -56,5 +66,5 @@ catch (Exception ex)
 finally
 {
     // Flush and close loggers
-    Log.CloseAndFlush();
+    await Log.CloseAndFlushAsync();
 }
