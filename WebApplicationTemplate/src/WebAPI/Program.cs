@@ -1,4 +1,4 @@
-using Serilog;
+﻿using Serilog;
 using Serilog.Events;
 using System.Globalization;
 
@@ -15,7 +15,7 @@ try
 {
     var dateTimeUtcNow = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture);
 
-    Log.Information("Starting application...");
+    Log.Information("Starting Web Application");
 
     Log.Information("UTC Time: {DateTimeUtcNow}", dateTimeUtcNow);
 
@@ -51,7 +51,7 @@ try
 catch (Exception ex)
 {
     // Ensure fatal startup errors are captured
-    Log.Fatal(ex, "Application start-up failed");
+    Log.Fatal(ex, "Web Application start-up failed");
 }
 finally
 {
