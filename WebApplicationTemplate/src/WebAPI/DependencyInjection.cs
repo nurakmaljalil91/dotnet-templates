@@ -16,6 +16,7 @@ public static class DependencyInjection
     /// <returns>The updated <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection AddWebAPIServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddHttpContextAccessor();
 
         // Allow all origin since it will be web service
         services.AddCors(options =>
@@ -68,6 +69,11 @@ public static class DependencyInjection
 
             options.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
         });
+
+        // TODO: Configure Authentication
+
+        // TODO: Configure Authorization
+
 
         return services;
     }
