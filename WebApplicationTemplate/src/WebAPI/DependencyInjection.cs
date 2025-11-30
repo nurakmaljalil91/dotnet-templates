@@ -16,6 +16,23 @@ public static class DependencyInjection
     /// <returns>The updated <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection AddWebAPIServices(this IServiceCollection services, IConfiguration configuration)
     {
+
+        // Allow all origin since it will be web service
+        services.AddCors(options =>
+        {
+            options.AddPolicy(
+                name: "CorsPolicy",
+                policy =>
+                {
+                    policy
+                        .SetIsOriginAllowed(origin => true)
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials(); // Required for SignalR
+                });
+        });
+
+        // Register OpenAPI document generation
         services.AddOpenApiDocument(options =>
         {
             options.PostProcess = document =>

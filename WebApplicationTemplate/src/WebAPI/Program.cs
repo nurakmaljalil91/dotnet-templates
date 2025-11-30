@@ -1,6 +1,10 @@
-﻿using Application;
+﻿using System.Globalization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Application;
 using Infrastructure;
-using System.Globalization;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Serilog;
 using Serilog.Events;
 using WebAPI;
@@ -29,7 +33,7 @@ try
     builder.Services.AddWebAPIServices(builder.Configuration);
 
     builder.Services.AddControllers();
-   
+
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
@@ -53,6 +57,44 @@ try
     {
         options.MessageTemplate = "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
     });
+
+    app.UseCors("CorsPolicy");
+    // Liveness: just "is the process up?"
+    app.MapHealthChecks("/health/live", new HealthCheckOptions
+    {
+        Predicate = _ => false // don't run any checks, always "Healthy" if app is running
+    });
+
+    // Readiness: run all registered checks (DB, etc.)
+    app.MapHealthChecks("/health/ready", new HealthCheckOptions
+    {
+        Predicate = _ => true,
+        ResponseWriter = async (context, report) =>
+        {
+            context.Response.ContentType = "application/json";
+
+            var response = new
+            {
+                status = report.Status.ToString(),
+                checks = report.Entries.Select(e => new
+                {
+                    name = e.Key,
+                    status = e.Value.Status.ToString(),
+                    description = e.Value.Description
+                }),
+                duration = report.TotalDuration.TotalMilliseconds
+            };
+
+            var json = JsonSerializer.Serialize(response, new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+            });
+
+            await context.Response.WriteAsync(json);
+        }
+    });
+
 
     app.MapControllers();
 

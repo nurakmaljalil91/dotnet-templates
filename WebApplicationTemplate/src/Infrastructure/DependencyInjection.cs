@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace Infrastructure;
 
@@ -21,6 +22,21 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        // configure DbContext
+        var defaultConnection = configuration.GetConnectionString("DefaultConnection");
+
+        Guard.Against.Null(defaultConnection, message: "Connection string 'DefaultConnection' not found.");
+
+        // Register health checks
+        services
+            .AddHealthChecks()
+            .AddCheck("application", () => HealthCheckResult.Healthy())
+            .AddNpgSql(
+            connectionString: defaultConnection!,
+            name: "postgres",
+            tags: new[] { "ready"
+            });
+
         return services;
     }
 }

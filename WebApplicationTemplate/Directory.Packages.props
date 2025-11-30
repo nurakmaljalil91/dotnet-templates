@@ -4,6 +4,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<!-- Shared Packages -->
+		<PackageVersion Include="AspNetCore.HealthChecks.NpgSql" Version="9.0.0" />
 		<PackageVersion Include="SonarAnalyzer.CSharp" Version="10.16.0.128591" />
 		<!-- Packages for WebAPI -->
 		<PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
