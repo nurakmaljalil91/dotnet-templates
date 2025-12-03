@@ -16,6 +16,7 @@ public static class DependencyInjection
     /// <returns>The updated <see cref="IServiceCollection"/>.</returns>
     public static IServiceCollection AddWebAPIServices(this IServiceCollection services, IConfiguration configuration)
     {
+        // Register HttpContextAccessor
         services.AddHttpContextAccessor();
 
         // Allow all origin since it will be web service
