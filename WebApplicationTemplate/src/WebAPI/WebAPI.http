@@ -1,6 +1,23 @@
 @WebAPI_HostAddress = http://localhost:5133
 
+# Health - Liveness
+GET {{WebAPI_HostAddress}}/health/live
+Accept: application/json
+
+###
+
+# Health - Readiness (includes custom JSON writer)
+GET {{WebAPI_HostAddress}}/health/ready
+Accept: application/json
+
+###
+
+# Weather Forecast
 GET {{WebAPI_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+# OpenAPI document (if NSwag is enabled in Development)
+GET {{WebAPI_HostAddress}}/swagger/v1/swagger.json
+Accept: application/json
