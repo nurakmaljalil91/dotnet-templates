@@ -1,0 +1,56 @@
+﻿using Application.Common.Interfaces;
+using Application.Mediator;
+using Microsoft.Extensions.Logging;
+using System.Diagnostics;
+
+namespace Application.Common.Behaviours;
+
+/// <summary>
+/// Pipeline behavior that logs a warning if a request takes longer than 500 milliseconds to process.
+/// </summary>
+/// <typeparam name="TRequest">The type of the request.</typeparam>
+/// <typeparam name="TResponse">The type of the response.</typeparam>
+public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+{
+    private readonly Stopwatch _timer;
+    private readonly ILogger<TRequest> _logger;
+    private readonly ICurrentUserService _currentUserService;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PerformanceBehaviour{TRequest, TResponse}"/> class.
+    /// </summary>
+    /// <param name="logger">The logger instance.</param>
+    /// <param name="currentUserService">The current user service.</param>
+    public PerformanceBehaviour(
+        ILogger<TRequest> logger,
+        ICurrentUserService currentUserService)
+    {
+        _timer = new Stopwatch();
+
+        _logger = logger;
+        _currentUserService = currentUserService;        
+    }
+
+    /// <inheritdoc />
+    public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+    {
+        _timer.Start();
+
+        var response = await next();
+
+        _timer.Stop();
+
+        var elapsedMilliseconds = _timer.ElapsedMilliseconds;
+
+        if (elapsedMilliseconds > 500)
+        {
+            var requestName = typeof(TRequest).Name;
+            var userId = _currentUserService.Username ?? string.Empty;
+
+            _logger.LogWarning("RUL Synergy Claim System Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@Request}",
+                requestName, elapsedMilliseconds, userId, request);
+        }
+
+        return response;
+    }
+}

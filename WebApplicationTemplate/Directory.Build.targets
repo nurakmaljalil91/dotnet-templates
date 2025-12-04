@@ -10,7 +10,7 @@
   </Target>
 
   <!-- Optional: high-level build info message (handy in CI logs) -->
-  <Target Name="PrintCerxosBuildInfo"
+  <Target Name="PrintApplicationBuildInfo"
           BeforeTargets="BeforeBuild">
     <Message Importance="High"
              Text="Building $(MSBuildProjectName) | Configuration=$(Configuration) | TFM=$(TargetFramework)" />
