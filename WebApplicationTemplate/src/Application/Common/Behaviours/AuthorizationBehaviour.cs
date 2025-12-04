@@ -65,20 +65,7 @@ public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
                 }
             }
 
-            // Policy-based authorization
-            //var authorizeAttributesWithPolicies = authorizeAttributes.Where(a => !string.IsNullOrWhiteSpace(a.Policy));
-            //if (authorizeAttributesWithPolicies.Any())
-            //{
-            //    foreach (var policy in authorizeAttributesWithPolicies.Select(a => a.Policy))
-            //    {
-            //        var authorized = await _identityService.AuthorizeAsync(_currentUserService.Username, policy);
-
-            //        if (!authorized)
-            //        {
-            //            throw new ForbiddenAccessException();
-            //        }
-            //    }
-            //}
+            // Policy-based authorization          
         }
 
         // User is authorized / authorization not required

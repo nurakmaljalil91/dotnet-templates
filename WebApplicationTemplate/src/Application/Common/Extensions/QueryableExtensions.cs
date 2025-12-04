@@ -1,11 +1,24 @@
-﻿using System.Linq.Expressions;
+﻿#nullable enable
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace Application.Common.Extensions
 {
+    /// <summary>
+    /// Provides extension methods for applying dynamic filtering and sorting to <see cref="IQueryable{T}"/> sources.
+    /// </summary>
     public static partial class QueryableExtensions
     {
+        /// <summary>
+        /// Applies dynamic filtering to an <see cref="IQueryable{T}"/> source based on a filter string.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of <paramref name="query"/>.</typeparam>
+        /// <param name="query">The source query to filter.</param>
+        /// <param name="filter">
+        /// The filter string to apply. Supports logical operators ("and", "or") and operations such as "eq", "contains", "containscase", "startswith", "endswith", and numeric comparisons ("gt", "ge", "lt", "le").
+        /// </param>
+        /// <returns>An <see cref="IQueryable{T}"/> with the filter applied.</returns>
         public static IQueryable<T> ApplyFilters<T>(this IQueryable<T> query, string? filter)
         {
             if (string.IsNullOrEmpty(filter)) return query;
@@ -93,7 +106,7 @@ namespace Application.Common.Extensions
                     // Combine OR conditions
                     combinedOrExpression = combinedOrExpression == null 
                         ? combinedAndExpression 
-                        : Expression.OrElse(combinedOrExpression, combinedAndExpression);
+                        : Expression.OrElse(combinedOrExpression, combinedOrExpression);
                 }
             }
 
@@ -113,7 +126,7 @@ namespace Application.Common.Extensions
                 throw new ArgumentException($"Property {fieldName} not found on {typeof(T).Name}");
 
             var propertyAccess = Expression.Property(parameter, property);
-            object convertedValue = ConvertValue(valueStr, property.PropertyType);
+            object? convertedValue = ConvertValue(valueStr, property.PropertyType);
             var constant = Expression.Constant(convertedValue, property.PropertyType);
 
             return Expression.Equal(propertyAccess, constant);
@@ -169,7 +182,7 @@ namespace Application.Common.Extensions
                 throw new ArgumentException($"Property {fieldName} not found on {typeof(T).Name}");
 
             var propertyAccess = Expression.Property(parameter, property);
-            object convertedValue = ConvertValue(valueStr, property.PropertyType);
+            object? convertedValue = ConvertValue(valueStr, property.PropertyType);
             var constant = Expression.Constant(convertedValue, property.PropertyType);
 
             return comparisonOperator switch
@@ -200,7 +213,7 @@ namespace Application.Common.Extensions
             }
 
             // If the value is quoted, return it as a string
-            if (valueStr.StartsWith("'") && valueStr.EndsWith("'"))
+            if (valueStr.StartsWith('\'') && valueStr.EndsWith('\''))
                 return valueStr.Trim('\'');
 
             object converted = Convert.ChangeType(valueStr, targetType);
@@ -215,6 +228,14 @@ namespace Application.Common.Extensions
             return converted;
         }
 
+        /// <summary>
+        /// Applies dynamic sorting to an <see cref="IQueryable{T}"/> source based on a property name and sort direction.
+        /// </summary>
+        /// <typeparam name="T">The type of the elements of <paramref name="query"/>.</typeparam>
+        /// <param name="query">The source query to sort.</param>
+        /// <param name="sortBy">The property name to sort by.</param>
+        /// <param name="descending">If <c>true</c>, sorts in descending order; otherwise, sorts in ascending order.</param>
+        /// <returns>An <see cref="IQueryable{T}"/> with the sorting applied.</returns>
         public static IQueryable<T> ApplySorting<T>(this IQueryable<T> query, string? sortBy, bool descending)
         {
             if (string.IsNullOrEmpty(sortBy)) return query.OrderBy(x => 0);

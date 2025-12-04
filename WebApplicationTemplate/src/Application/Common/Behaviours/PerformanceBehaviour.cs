@@ -13,7 +13,7 @@ namespace Application.Common.Behaviours;
 public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     private readonly Stopwatch _timer;
-    private readonly ILogger<TRequest> _logger;
+    private readonly ILogger<PerformanceBehaviour<TRequest, TResponse>> _logger;
     private readonly ICurrentUserService _currentUserService;
 
     /// <summary>
@@ -22,7 +22,7 @@ public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
     /// <param name="logger">The logger instance.</param>
     /// <param name="currentUserService">The current user service.</param>
     public PerformanceBehaviour(
-        ILogger<TRequest> logger,
+        ILogger<PerformanceBehaviour<TRequest, TResponse>> logger,
         ICurrentUserService currentUserService)
     {
         _timer = new Stopwatch();
@@ -47,7 +47,7 @@ public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
             var requestName = typeof(TRequest).Name;
             var userId = _currentUserService.Username ?? string.Empty;
 
-            _logger.LogWarning("RUL Synergy Claim System Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@Request}",
+            _logger.LogWarning("Application Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@Request}",
                 requestName, elapsedMilliseconds, userId, request);
         }
 
