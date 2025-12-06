@@ -1,4 +1,4 @@
-﻿using Application.Mediator;
+﻿using Mediator;
 using Microsoft.Extensions.Logging;
 
 namespace Application.Common.Behaviours;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Application.Mediator;
+namespace Mediator;
 
 /// <summary>
 /// Handles a request of type <typeparamref name="TRequest"/> and returns <typeparamref name="TResponse"/>.

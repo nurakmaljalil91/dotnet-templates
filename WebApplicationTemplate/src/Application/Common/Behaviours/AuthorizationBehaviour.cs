@@ -1,7 +1,7 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.Common.Security;
-using Application.Mediator;
+using Mediator;
 using System.Reflection;
 
 namespace Application.Common.Behaviours;

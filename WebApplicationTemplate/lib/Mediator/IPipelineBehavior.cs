@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Application.Mediator;
+namespace Mediator;
 
 /// <summary>
 /// Defines a pipeline behavior that can run before/after the request handler,

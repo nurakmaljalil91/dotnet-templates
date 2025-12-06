@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Application.Mediator;
+namespace Mediator;
 
 /// <summary>
 /// Delegate representing the next step in the pipeline (next behavior or the handler).

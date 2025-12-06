@@ -1,31 +1,32 @@
 ﻿<Project>
-	<PropertyGroup>
-		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-	</PropertyGroup>
-	<ItemGroup>
-		<!-- Shared Packages -->
-		<PackageVersion Include="AspNetCore.HealthChecks.NpgSql" Version="9.0.0" />
-		<PackageVersion Include="SonarAnalyzer.CSharp" Version="10.16.0.128591" />
-		<!-- Packages for WebAPI -->
-		<PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
-		<PackageVersion Include="NSwag.AspNetCore" Version="14.6.3" />
-		<PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
-		<PackageVersion Include="Serilog.Enrichers.Environment" Version="3.0.1" />
-		<PackageVersion Include="Serilog.Enrichers.Process" Version="3.0.0" />
-		<PackageVersion Include="Serilog.Enrichers.Thread" Version="4.0.0" />
-		<PackageVersion Include="Serilog.Settings.Configuration" Version="10.0.0" />
-		<PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
-		<PackageVersion Include="Serilog.Sinks.Debug" Version="3.0.0" />
-		<PackageVersion Include="Serilog.Sinks.File" Version="7.0.0" />
-		<PackageVersion Include="Serilog.Sinks.Seq" Version="9.0.0" />
-		<!-- Packages for Application -->
-		<PackageVersion Include="Ardalis.GuardClauses" Version="5.0.0" />
-		<PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.0" />
-		<PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
-		<PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" Version="10.0.0" />
-		<!-- Packages for Infrastructure -->
-		<PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
-		<!-- Packages for Domain -->
-		<PackageVersion Include="NodaTime" Version="3.2.2" />
-	</ItemGroup>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Shared Packages -->
+    <PackageVersion Include="AspNetCore.HealthChecks.NpgSql" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
+    <PackageVersion Include="SonarAnalyzer.CSharp" Version="10.16.0.128591" />
+    <!-- Packages for WebAPI -->
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
+    <PackageVersion Include="NSwag.AspNetCore" Version="14.6.3" />
+    <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
+    <PackageVersion Include="Serilog.Enrichers.Environment" Version="3.0.1" />
+    <PackageVersion Include="Serilog.Enrichers.Process" Version="3.0.0" />
+    <PackageVersion Include="Serilog.Enrichers.Thread" Version="4.0.0" />
+    <PackageVersion Include="Serilog.Settings.Configuration" Version="10.0.0" />
+    <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
+    <PackageVersion Include="Serilog.Sinks.Debug" Version="3.0.0" />
+    <PackageVersion Include="Serilog.Sinks.File" Version="7.0.0" />
+    <PackageVersion Include="Serilog.Sinks.Seq" Version="9.0.0" />
+    <!-- Packages for Application -->
+    <PackageVersion Include="Ardalis.GuardClauses" Version="5.0.0" />
+    <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
+    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" Version="10.0.0" />
+    <!-- Packages for Infrastructure -->
+    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
+    <!-- Packages for Domain -->
+    <PackageVersion Include="NodaTime" Version="3.2.2" />
+  </ItemGroup>
 </Project>

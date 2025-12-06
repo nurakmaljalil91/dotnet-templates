@@ -1,5 +1,5 @@
 ﻿using Application.Common.Interfaces;
-using Application.Mediator;
+using Mediator;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Application.Mediator;
+namespace Mediator;
 
 /// <summary>
 /// Represents a request that returns a response of type <typeparamref name="TResponse"/>.

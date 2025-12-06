@@ -8,4 +8,8 @@
     <PackageReference Include="NodaTime" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\lib\Mediator\Mediator.csproj" />
+  </ItemGroup>
+
 </Project>

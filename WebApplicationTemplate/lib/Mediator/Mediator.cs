@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Application.Mediator;
+namespace Mediator;
 
 /// <summary>
 /// Default mediator implementation using DI to resolve handlers.

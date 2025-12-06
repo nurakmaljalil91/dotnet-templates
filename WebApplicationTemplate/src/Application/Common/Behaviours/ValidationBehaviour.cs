@@ -1,4 +1,4 @@
-﻿using Application.Mediator;
+﻿using Mediator;
 using FluentValidation;
 using ValidationException = Application.Common.Exceptions.ValidationException;
 

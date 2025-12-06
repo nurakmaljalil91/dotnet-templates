@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Application.Mediator;
+namespace Mediator;
 
 /// <summary>
 /// DI registration helpers for mediator and handlers.
