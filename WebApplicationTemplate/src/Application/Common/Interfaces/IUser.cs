@@ -5,7 +5,7 @@ namespace Application.Common.Interfaces;
 /// <summary>
 /// Provides information about the current user, including their username and roles.
 /// </summary>
-public interface ICurrentUserService
+public interface IUser
 {
     /// <summary>
     /// Gets the username of the current user, or <c>null</c> if not available.

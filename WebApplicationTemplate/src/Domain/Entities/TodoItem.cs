@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Domain.Common;
-using Domain.Enums;
 
 namespace Domain.Entities;
 

@@ -13,16 +13,16 @@ namespace Application.Common.Behaviours;
 /// <typeparam name="TResponse">The response type.</typeparam>
 public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
-    private readonly ICurrentUserService _currentUserService;
+    private readonly IUser _user;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AuthorizationBehaviour{TRequest, TResponse}"/> class.
     /// </summary>
-    /// <param name="currentUserService">The current user service.</param>
+    /// <param name="user">The current user service.</param>
     public AuthorizationBehaviour(
-        ICurrentUserService currentUserService)
+        IUser user)
     {
-        _currentUserService = currentUserService;
+        _user = user;
     }
 
     /// <inheritdoc />
@@ -33,7 +33,7 @@ public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
         if (authorizeAttributes.Any())
         {
             // Must be authenticated user
-            if (_currentUserService.Username == null)
+            if (_user.Username == null)
             {
                 throw new UnauthorizedAccessException();
             }
@@ -49,7 +49,7 @@ public class AuthorizationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRe
                 {
                     foreach (var role in roles)
                     {
-                        var isInRole = _currentUserService.Roles.Contains(role);
+                        var isInRole = _user.Roles.Contains(role);
                         if (isInRole)
                         {
                             authorized = true;

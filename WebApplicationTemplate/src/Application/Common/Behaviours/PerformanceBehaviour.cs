@@ -14,21 +14,21 @@ public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
 {
     private readonly Stopwatch _timer;
     private readonly ILogger<PerformanceBehaviour<TRequest, TResponse>> _logger;
-    private readonly ICurrentUserService _currentUserService;
+    private readonly IUser _user;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PerformanceBehaviour{TRequest, TResponse}"/> class.
     /// </summary>
     /// <param name="logger">The logger instance.</param>
-    /// <param name="currentUserService">The current user service.</param>
+    /// <param name="user">The current user service.</param>
     public PerformanceBehaviour(
         ILogger<PerformanceBehaviour<TRequest, TResponse>> logger,
-        ICurrentUserService currentUserService)
+        IUser user)
     {
         _timer = new Stopwatch();
 
         _logger = logger;
-        _currentUserService = currentUserService;        
+        _user = user;        
     }
 
     /// <inheritdoc />
@@ -45,7 +45,7 @@ public class PerformanceBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequ
         if (elapsedMilliseconds > 500)
         {
             var requestName = typeof(TRequest).Name;
-            var userId = _currentUserService.Username ?? string.Empty;
+            var userId = _user.Username ?? string.Empty;
 
             _logger.LogWarning("Application Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@Request}",
                 requestName, elapsedMilliseconds, userId, request);

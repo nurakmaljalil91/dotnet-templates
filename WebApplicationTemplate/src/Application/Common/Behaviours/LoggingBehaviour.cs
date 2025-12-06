@@ -13,17 +13,17 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
 {
 
     private readonly ILogger<LoggingBehavior<TRequest, TResponse>> _logger;
-    private readonly ICurrentUserService _currentUserService;
+    private readonly IUser _user;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="LoggingBehavior{TRequest, TResponse}"/> class.
     /// </summary>
     /// <param name="logger">The logger instance for logging request and response information.</param>
-    /// <param name="currentUserService">The current user service providing user context.</param>
-    public LoggingBehavior(ILogger<LoggingBehavior<TRequest, TResponse>> logger, ICurrentUserService currentUserService)
+    /// <param name="user">The current user service providing user context.</param>
+    public LoggingBehavior(ILogger<LoggingBehavior<TRequest, TResponse>> logger, IUser user)
     {
         _logger = logger;
-        _currentUserService = currentUserService;
+        _user = user;
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
         }
         catch (Exception ex)
         {
-            var userId = _currentUserService.Username ?? "Unknown";
+            var userId = _user.Username ?? "Unknown";
             _logger.LogError(ex, "Error handling {RequestName} for user {UserId}: {ExceptionMessage}", requestName, userId, ex.Message);
             throw; // Re-throw the original exception to avoid throwing System.Exception directly
         }

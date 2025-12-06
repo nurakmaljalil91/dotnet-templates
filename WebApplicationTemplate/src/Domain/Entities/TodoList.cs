@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
-using Domain.Common;
-using Domain.ValueObjects;
 
 namespace Domain.Entities;
 
