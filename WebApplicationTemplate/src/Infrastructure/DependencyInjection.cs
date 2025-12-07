@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Application.Common.Interfaces;
+using Infrastructure.Data;
+using Infrastructure.Data.Interceptors;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -22,6 +27,13 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
+
+        services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
+
+        var useInMemoryDatabase = configuration.GetValue<bool>("UseInMemoryDatabase");
+
+        Guard.Against.Null(useInMemoryDatabase, message: "Setting for 'UseInMemoryDatabase' does not exists.");
+
         // configure DbContext
         var defaultConnection = configuration.GetConnectionString("DefaultConnection");
 
@@ -36,6 +48,27 @@ public static class DependencyInjection
             name: "postgres",
             tags: new[] { "ready"
             });
+
+        if (useInMemoryDatabase)
+        {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseInMemoryDatabase("MemoryDb"));
+        }
+        else
+        {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
+                    builder =>
+                    {
+                        builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName);
+                        builder.UseNodaTime();
+                    }));
+        }
+
+        services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+
+        services.AddScoped<ApplicationDbContextInitialiser>();
+
 
         return services;
     }

@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Application;
 using Infrastructure;
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Serilog;
@@ -50,6 +51,14 @@ try
 
         // Add ReDoc UI to interact with the document
         app.UseReDoc(options => { options.Path = "/redoc"; });
+
+        // Initialise and seed database
+        using (var scope = app.Services.CreateScope())
+        {
+            var initializer = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitialiser>();
+            await initializer.InitialiseAsync();
+            await initializer.SeedAsync();
+        }
     }
 
     app.UseHttpsRedirection();
