@@ -1,5 +1,7 @@
-﻿using NSwag;
+﻿using Application.Common.Interfaces;
+using NSwag;
 using NSwag.Generation.Processors.Security;
+using WebAPI.Services;
 
 namespace WebAPI;
 
@@ -18,6 +20,8 @@ public static class DependencyInjection
     {
         // Register HttpContextAccessor
         services.AddHttpContextAccessor();
+
+        services.AddScoped<IUser, CurrentUser>();
 
         // Allow all origin since it will be web service
         services.AddCors(options =>

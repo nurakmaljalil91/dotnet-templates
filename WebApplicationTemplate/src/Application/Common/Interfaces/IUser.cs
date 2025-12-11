@@ -15,5 +15,5 @@ public interface IUser
     /// <summary>
     /// Gets the list of roles associated with the current user.
     /// </summary>
-    List<string> Roles { get; }
+    List<string> GetRoles();
 }
