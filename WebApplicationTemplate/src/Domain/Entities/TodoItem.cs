@@ -13,7 +13,7 @@ public class TodoItem : BaseAuditableEntity
     /// <summary>
     /// Gets or sets the identifier of the to-do list to which this item belongs.
     /// </summary>
-    public int ListId { get; set; }
+    public long ListId { get; set; }
 
     /// <summary>
     /// Gets or sets the title of the to-do item.
