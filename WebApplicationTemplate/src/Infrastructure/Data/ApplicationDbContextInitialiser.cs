@@ -31,6 +31,7 @@ public class ApplicationDbContextInitialiser
     /// </summary>
     public async Task InitialiseAsync()
     {
+#pragma warning disable S2139 // Exceptions should be either logged or rethrown but not both
         try
         {
             // See https://jasontaylor.dev/ef-core-database-initialisation-strategies
@@ -42,6 +43,7 @@ public class ApplicationDbContextInitialiser
             _logger.LogError(ex, "An error occurred while initialising the database.");
             throw;
         }
+#pragma warning restore S2139 // Exceptions should be either logged or rethrown but not both
     }
 
     /// <summary>

@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,11 +7,8 @@ namespace Mediator;
 /// <summary>
 /// Represents a request that returns a response of type <typeparamref name="TResponse"/>.
 /// </summary>
-public interface IRequest<out TResponse>
+#pragma warning disable S2326 // Unused type parameters should be removed
+public interface IRequest<TResponse>
+#pragma warning restore S2326 // Unused type parameters should be removed
 {
-    /// <summary>
-    /// Marker property to ensure <typeparamref name="TResponse"/> is referenced.
-    /// </summary>
-    //static abstract TResponse? ResponseType { get; }
 }
-#nullable restore
