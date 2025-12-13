@@ -13,6 +13,6 @@ public interface IRequest<out TResponse>
     /// <summary>
     /// Marker property to ensure <typeparamref name="TResponse"/> is referenced.
     /// </summary>
-    static abstract TResponse? ResponseType { get; }
+    //static abstract TResponse? ResponseType { get; }
 }
 #nullable restore

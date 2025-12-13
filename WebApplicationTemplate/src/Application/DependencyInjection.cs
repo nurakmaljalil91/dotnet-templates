@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using Application.Common.Models;
+using Application.TodoItems.Models;
+using Application.TodoItems.Queries;
 using FluentValidation;
+using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Application;
@@ -19,6 +23,9 @@ public static class DependencyInjection
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddScoped<IMediator, Mediator.Mediator>();
+        services.AddScoped<IRequestHandler<GetTodoItemsQuery, PaginatedList<TodoItemDto>>,
+            GetTodoItemsQueryHandler>();
         return services;
     }
 }
