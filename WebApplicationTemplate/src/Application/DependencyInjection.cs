@@ -5,6 +5,7 @@ using System.Text;
 using Application.Common.Models;
 using Application.TodoItems.Models;
 using Application.TodoItems.Queries;
+using Domain.Common;
 using FluentValidation;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,7 +25,7 @@ public static class DependencyInjection
     {
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddScoped<IMediator, Mediator.Mediator>();
-        services.AddScoped<IRequestHandler<GetTodoItemsQuery, PaginatedList<TodoItemDto>>,
+        services.AddScoped<IRequestHandler<GetTodoItemsQuery, BaseResponse<PaginatedList<TodoItemDto>>>,
             GetTodoItemsQueryHandler>();
         return services;
     }

@@ -11,7 +11,7 @@ public abstract class BadRequestException : Exception
     /// <summary>
     /// Gets or sets the error response associated with the bad request.
     /// </summary>
-    public BaseResponse ErrorResponse { get; set; }
+    public BaseResponse<string> ErrorResponse { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BadRequestException"/> class.
@@ -28,11 +28,6 @@ public abstract class BadRequestException : Exception
     protected BadRequestException(string details)
           : base()
     {
-        ErrorResponse = new BaseResponse
-        {
-            StatusCode = (int)HttpStatusCode.BadRequest,
-            Message = "Bad Request",
-            Details = details
-        };
+        ErrorResponse = BaseResponse<string>.Fail(details, []);
     }
 }

@@ -12,14 +12,14 @@ namespace Application.TodoItems.Queries;
 /// <summary>
 /// Represents a paginated query for retrieving todos items.
 /// </summary>
-public class GetTodoItemsQuery : PaginatedRequest, IRequest<PaginatedList<TodoItemDto>>
+public class GetTodoItemsQuery : PaginatedRequest, IRequest<BaseResponse<PaginatedList<TodoItemDto>>>
 {
 }
 
 /// <summary>
 /// Handles the retrieval of paginated todoz items based on the specified query parameters.
 /// </summary>
-public record GetTodoItemsQueryHandler : IRequestHandler<GetTodoItemsQuery, PaginatedList<TodoItemDto>>
+public record GetTodoItemsQueryHandler : IRequestHandler<GetTodoItemsQuery, BaseResponse<PaginatedList<TodoItemDto>>>
 {
     private readonly IApplicationDbContext _context;
 
@@ -38,10 +38,12 @@ public record GetTodoItemsQueryHandler : IRequestHandler<GetTodoItemsQuery, Pagi
     /// <param name="request">The query parameters for retrieving todos items.</param>
     /// <param name="cancellationToken">A token to monitor for cancellation requests.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains a paginated list of <see cref="TodoItemDto"/>.</returns>
-    public Task<PaginatedList<TodoItemDto>> Handle(GetTodoItemsQuery request, CancellationToken cancellationToken)
+    public async Task<BaseResponse<PaginatedList<TodoItemDto>>> Handle(GetTodoItemsQuery request, CancellationToken cancellationToken)
     {
         var query = from todoItem in _context.TodoItems
                     select new TodoItemDto(todoItem);
-        return PaginatedList<TodoItemDto>.CreateAsync(query, request.Page, request.Total);
+        var paginatedList = await PaginatedList<TodoItemDto>.CreateAsync(query, request.Page, request.Total);
+
+        return BaseResponse<PaginatedList<TodoItemDto>>.Ok(paginatedList, $"Success retrieve {paginatedList.TotalCount} todo items!");
     }
 }

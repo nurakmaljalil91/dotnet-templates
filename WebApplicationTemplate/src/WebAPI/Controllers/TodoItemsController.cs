@@ -1,6 +1,7 @@
 ﻿using Application.Common.Models;
 using Application.TodoItems.Models;
 using Application.TodoItems.Queries;
+using Domain.Common;
 using Mediator;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,7 +31,7 @@ public class TodoItemsController : ControllerBase
     /// <param name="query">The query parameters for retrieving Todos items.</param>
     /// <returns>A paginated list of Todos items.</returns>
     [HttpGet]
-    public async Task<PaginatedList<TodoItemDto>> GetTodoItems([FromQuery] GetTodoItemsQuery query)
+    public async Task<BaseResponse<PaginatedList<TodoItemDto>>> GetTodoItems([FromQuery] GetTodoItemsQuery query)
         => await _mediator.Send(query);
 
 }
