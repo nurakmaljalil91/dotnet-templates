@@ -25,7 +25,7 @@ public static class DependencyInjection
     {
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddScoped<IMediator, Mediator.Mediator>();
-        services.AddScoped<IRequestHandler<GetTodoItemsQuery, BaseResponse<PaginatedList<TodoItemDto>>>,
+        services.AddScoped<IRequestHandler<GetTodoItemsQuery, BaseResponse<PaginatedEnumerable<TodoItemDto>>>,
             GetTodoItemsQueryHandler>();
         return services;
     }

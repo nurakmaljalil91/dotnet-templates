@@ -31,7 +31,7 @@ public class TodoItemsController : ControllerBase
     /// <param name="query">The query parameters for retrieving Todos items.</param>
     /// <returns>A paginated list of Todos items.</returns>
     [HttpGet]
-    public async Task<BaseResponse<PaginatedList<TodoItemDto>>> GetTodoItems([FromQuery] GetTodoItemsQuery query)
+    public async Task<BaseResponse<PaginatedEnumerable<TodoItemDto>>> GetTodoItems([FromQuery] GetTodoItemsQuery query)
         => await _mediator.Send(query);
 
 }
