@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces;
 using NSwag;
 using NSwag.Generation.Processors.Security;
+using WebAPI.Middlewares;
 using WebAPI.Services;
 
 namespace WebAPI;
@@ -79,6 +80,7 @@ public static class DependencyInjection
 
         // TODO: Configure Authorization
 
+        services.AddTransient<ExceptionHandlingMiddleware>();
 
         return services;
     }

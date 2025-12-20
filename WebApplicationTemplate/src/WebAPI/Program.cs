@@ -40,6 +40,8 @@ try
 
     app.UseMiddleware<CorrelationIdMiddleware>();
 
+    app.UseMiddleware<ExceptionHandlingMiddleware>();
+
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {

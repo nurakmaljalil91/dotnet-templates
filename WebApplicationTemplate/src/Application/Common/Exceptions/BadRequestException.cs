@@ -28,6 +28,6 @@ public abstract class BadRequestException : Exception
     protected BadRequestException(string details)
           : base()
     {
-        ErrorResponse = BaseResponse<string>.Fail(details, []);
+        ErrorResponse = BaseResponse<string>.Fail(details, null);
     }
 }

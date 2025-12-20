@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using Application.Common.Behaviours;
 using Application.Common.Models;
 using Application.TodoItems.Commands;
 using Application.TodoItems.Models;
@@ -25,6 +26,7 @@ public static class DependencyInjection
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         services.AddScoped<IMediator, Mediator.Mediator>();
         services.AddScoped<IRequestHandler<GetTodoItemsQuery, BaseResponse<PaginatedEnumerable<TodoItemDto>>>,
             GetTodoItemsQueryHandler>();

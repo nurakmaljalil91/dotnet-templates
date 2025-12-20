@@ -24,9 +24,9 @@ public sealed class BaseResponse<T>
     public T? Data { get; init; }
 
     /// <summary>
-    /// Gets a list of error messages, if any.
+    /// Validation or business errors grouped by field/property name.
     /// </summary>
-    public IReadOnlyList<string>? Errors { get; init; }
+    public IReadOnlyDictionary<string, string[]>? Errors { get; init; }
 
     /// <summary>
     /// Creates a successful response with the specified data and optional message.
@@ -50,7 +50,7 @@ public sealed class BaseResponse<T>
     /// <returns>A failed <see cref="BaseResponse{T}"/> instance.</returns>
     public static BaseResponse<T> Fail(
         string message,
-        IReadOnlyList<string>? errors = null)
+        IReadOnlyDictionary<string, string[]>? errors = null)
         => new()
         {
             Success = false,

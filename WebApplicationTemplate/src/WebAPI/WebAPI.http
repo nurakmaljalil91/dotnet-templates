@@ -37,7 +37,7 @@ POST {{WebAPI_HostAddress}}/todoItems
 Content-Type: application/json
 
 {
-  "title": "Read a book"
+  "title": ""
 }
 
 ###

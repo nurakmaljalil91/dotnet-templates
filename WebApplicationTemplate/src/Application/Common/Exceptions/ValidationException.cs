@@ -24,12 +24,15 @@ public class ValidationException : Exception
         : this()
     {
         Errors = failures
-            .GroupBy(e => e.PropertyName, e => e.ErrorMessage)
-            .ToDictionary(failureGroup => failureGroup.Key, failureGroup => failureGroup.ToArray());
+            .GroupBy(e => e.PropertyName)
+            .ToDictionary(
+                failureGroup => failureGroup.Key,
+                failureGroup => failureGroup.Select(failured => failured.ErrorMessage).Distinct().ToArray()
+                );
     }
 
     /// <summary>
     /// Gets a dictionary of validation errors, where the key is the property name and the value is an array of error messages.
     /// </summary>
-    public IDictionary<string, string[]> Errors { get; }
+    public IReadOnlyDictionary<string, string[]> Errors { get; }
 }

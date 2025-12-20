@@ -2,6 +2,7 @@
 using Application.TodoItems.Models;
 using Domain.Common;
 using Domain.Entities;
+using FluentValidation;
 using Mediator;
 
 namespace Application.TodoItems.Commands;
@@ -44,5 +45,23 @@ public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemComman
         var dto = new TodoItemDto(entity);
 
         return  BaseResponse<TodoItemDto>.Ok(dto, "Todo item created successfully.");
+    }
+}
+
+/// <summary>
+/// Validator for <see cref="CreateTodoItemCommand"/>.
+/// </summary>
+public class CreateTodoItemCommandValidator : AbstractValidator<CreateTodoItemCommand>
+{
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="CreateTodoItemCommandValidator"/> class.
+    /// </summary>
+    public CreateTodoItemCommandValidator()
+    {
+        RuleFor(m => m.Title)
+            .MaximumLength(200)
+            .WithMessage("Title cannot exceed 200 characters")
+            .NotEmpty().WithMessage("Title is required.");
     }
 }
