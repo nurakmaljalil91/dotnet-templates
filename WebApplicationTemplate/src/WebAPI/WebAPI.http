@@ -14,12 +14,6 @@ Accept: application/json
 
 ###
 
-# Weather Forecast
-GET {{WebAPI_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
-
 # OpenAPI document (if NSwag is enabled in Development)
 GET {{WebAPI_HostAddress}}/swagger/v1/swagger.json
 Accept: application/json
@@ -27,17 +21,31 @@ Accept: application/json
 ###
 
 # Todos Items - Get all
-GET {{WebAPI_HostAddress}}/todoItems?page=1&total=10&sortBy=id&descending=true
+GET {{WebAPI_HostAddress}}/api/todoItems?page=1&total=10&sortBy=id&descending=true
 Accept: application/json
 
 ###
 
 # Create Todos Item
-POST {{WebAPI_HostAddress}}/todoItems
+POST {{WebAPI_HostAddress}}/api/todoItems
 Content-Type: application/json
-
 {
-  "title": ""
+  "title": "New Todo Item"
 }
+
+###
+
+# Update Todos Item
+PATCH {{WebAPI_HostAddress}}/api/todoItems
+Content-Type: application/json
+{
+  "id": 2,
+  "title": "Updated Todo Item"
+}
+
+###
+
+# Delete Todos Item
+DELETE {{WebAPI_HostAddress}}/api/todoItems/1
 
 ###

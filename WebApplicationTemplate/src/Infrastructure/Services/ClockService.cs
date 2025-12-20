@@ -1,4 +1,5 @@
-﻿using Application.Common.Interfaces;
+﻿#nullable enable
+using Application.Common.Interfaces;
 using NodaTime.TimeZones;
 using NodaTime;
 using NodaTime.Text;
@@ -17,17 +18,25 @@ public class ClockService : IClockService
     /// </summary>
     public DateTimeZone TimeZone { get; private set; }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ClockService"/> class using the system clock.
+    /// </summary>
     public ClockService()
         : this(SystemClock.Instance)
     {
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ClockService"/> class with a specified clock.
+    /// </summary>
+    /// <param name="clock">The clock to use for time operations.</param>
     public ClockService(IClock clock)
     {
         _clock = clock;
 
         // NOTE: Get the current users timezone here instead of hard coding it...
-        TimeZone = DateTimeZoneProviders.Tzdb.GetZoneOrNull("Asia/Singapore");
+        TimeZone = DateTimeZoneProviders.Tzdb.GetZoneOrNull("Asia/Singapore")
+            ?? throw new InvalidOperationException("Time zone 'Asia/Singapore' not found in TZDB provider.");
     }
 
     /// <summary>
@@ -85,3 +94,5 @@ public class ClockService : IClockService
         return time != null ? pattern.Parse(time) : null;
     }
 }
+
+#nullable disable

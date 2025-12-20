@@ -12,7 +12,7 @@ namespace WebAPI.Controllers;
 /// API controller for managing Todos items.
 /// </summary>
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class TodoItemsController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -44,4 +44,20 @@ public class TodoItemsController : ControllerBase
     public async Task<BaseResponse<TodoItemDto>> CreateTodoItem([FromBody] CreateTodoItemCommand command)
         => await _mediator.Send(command);
 
+    /// <summary>
+    /// Updates an existing Todos item.
+    /// </summary>
+    [HttpPatch]
+    public async Task<BaseResponse<TodoItemDto>> UpdateTodoItem([FromBody] UpdateTodoItemComand command)
+        => await _mediator.Send(command);
+
+    /// <summary>
+    /// Deletes a Todos item by its identifier.
+    /// </summary>
+    /// <param name="id">The identifier of the Todos item to delete.</param>
+    /// <returns>A response indicating the result of the delete operation.</returns>
+    [HttpDelete]
+    [Route("{id:long}")]
+    public async Task<BaseResponse<object>> DeleteTodoItem(long id)
+        => await _mediator.Send(new DeleteTodoItemCommand(id));
 }

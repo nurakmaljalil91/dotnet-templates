@@ -1,4 +1,5 @@
-﻿using Application.Common.Interfaces;
+﻿#nullable enable
+using Application.Common.Interfaces;
 using Application.TodoItems.Models;
 using Domain.Common;
 using Domain.Entities;
@@ -8,7 +9,7 @@ using Mediator;
 namespace Application.TodoItems.Commands;
 
 /// <inheritdoc />
-public class CreateTodoItemCommand: IRequest<BaseResponse<TodoItemDto>>
+public class CreateTodoItemCommand : IRequest<BaseResponse<TodoItemDto>>
 {
     /// <summary>
     /// Gets or sets the title of the to-do item.
@@ -44,7 +45,7 @@ public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemComman
 
         var dto = new TodoItemDto(entity);
 
-        return  BaseResponse<TodoItemDto>.Ok(dto, "Todo item created successfully.");
+        return BaseResponse<TodoItemDto>.Ok(dto, "Todo item created successfully.");
     }
 }
 
