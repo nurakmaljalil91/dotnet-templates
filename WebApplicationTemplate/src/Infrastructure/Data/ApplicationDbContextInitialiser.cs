@@ -14,7 +14,7 @@ public class ApplicationDbContextInitialiser
 {
     private readonly ILogger<ApplicationDbContextInitialiser> _logger;
     private readonly ApplicationDbContext _context;
- 
+
     /// <summary>
     /// Initializes a new instance of the <see cref="ApplicationDbContextInitialiser"/> class.
     /// </summary>
@@ -31,7 +31,6 @@ public class ApplicationDbContextInitialiser
     /// </summary>
     public async Task InitialiseAsync()
     {
-#pragma warning disable S2139 // Exceptions should be either logged or rethrown but not both
         try
         {
             // See https://jasontaylor.dev/ef-core-database-initialisation-strategies
@@ -41,9 +40,7 @@ public class ApplicationDbContextInitialiser
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occurred while initialising the database.");
-            throw;
         }
-#pragma warning restore S2139 // Exceptions should be either logged or rethrown but not both
     }
 
     /// <summary>
@@ -51,7 +48,6 @@ public class ApplicationDbContextInitialiser
     /// </summary>
     public async Task SeedAsync()
     {
-#pragma warning disable S2139 // Exceptions should be either logged or rethrown but not both
         try
         {
             await TrySeedAsync();
@@ -59,9 +55,7 @@ public class ApplicationDbContextInitialiser
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occurred while seeding the database.");
-            throw;
         }
-#pragma warning restore S2139 // Exceptions should be either logged or rethrown but not both
     }
 
     /// <summary>

@@ -1,4 +1,5 @@
 ﻿using Application.Common.Models;
+using Application.TodoItems.Commands;
 using Application.TodoItems.Models;
 using Application.TodoItems.Queries;
 using Domain.Common;
@@ -33,5 +34,14 @@ public class TodoItemsController : ControllerBase
     [HttpGet]
     public async Task<BaseResponse<PaginatedEnumerable<TodoItemDto>>> GetTodoItems([FromQuery] GetTodoItemsQuery query)
         => await _mediator.Send(query);
+
+    /// <summary>
+    /// Submits a request to create a new Todos item.
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task<BaseResponse<TodoItemDto>> CreateTodoItem([FromBody] CreateTodoItemCommand command)
+        => await _mediator.Send(command);
 
 }

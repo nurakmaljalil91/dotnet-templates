@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using Application.Common.Models;
+using Application.TodoItems.Commands;
 using Application.TodoItems.Models;
 using Application.TodoItems.Queries;
 using Domain.Common;
@@ -27,6 +28,7 @@ public static class DependencyInjection
         services.AddScoped<IMediator, Mediator.Mediator>();
         services.AddScoped<IRequestHandler<GetTodoItemsQuery, BaseResponse<PaginatedEnumerable<TodoItemDto>>>,
             GetTodoItemsQueryHandler>();
+        services.AddScoped<IRequestHandler<CreateTodoItemCommand, BaseResponse<TodoItemDto>>, CreateTodoItemCommandHandler>();
         return services;
     }
 }
