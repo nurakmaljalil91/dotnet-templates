@@ -34,22 +34,10 @@ public static class DependencyInjection
 
         var useInMemoryDatabase = configuration.GetValue<bool>("UseInMemoryDatabase");
 
-        Guard.Against.Null(useInMemoryDatabase, message: "Setting for 'UseInMemoryDatabase' does not exists.");
-
-        // configure DbContext
-        var defaultConnection = configuration.GetConnectionString("DefaultConnection");
-
-        Guard.Against.Null(defaultConnection, message: "Connection string 'DefaultConnection' not found.");
-
         // Register health checks
-        services
+        var healthChecks = services
             .AddHealthChecks()
-            .AddCheck("application", () => HealthCheckResult.Healthy())
-            .AddNpgSql(
-            connectionString: defaultConnection!,
-            name: "postgres",
-            tags: new[] { "ready"
-            });
+            .AddCheck("application", () => HealthCheckResult.Healthy());
 
         if (useInMemoryDatabase)
         {
@@ -58,8 +46,19 @@ public static class DependencyInjection
         }
         else
         {
+            // configure DbContext
+            var defaultConnection = configuration.GetConnectionString("DefaultConnection");
+
+            Guard.Against.Null(defaultConnection, message: "Connection string 'DefaultConnection' not found.");
+
+            healthChecks.AddNpgSql(
+                connectionString: defaultConnection!,
+                name: "postgres",
+                tags: new[] { "ready"
+                });
+
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
+                options.UseNpgsql(defaultConnection,
                     builder =>
                     {
                         builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName);

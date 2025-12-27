@@ -77,5 +77,14 @@ public class TodoItemsController : ControllerBase
     [HttpDelete]
     [Route("{id:long}")]
     public async Task<ActionResult<BaseResponse<object>>> DeleteTodoItem(long id)
-        => Ok(await _mediator.Send(new DeleteTodoItemCommand(id)));
+    {
+        var result = await _mediator.Send(new DeleteTodoItemCommand(id));
+
+        if (result.Success)
+        {
+            return Ok(result);
+        }
+
+        return BadRequest(result);
+    }
 }

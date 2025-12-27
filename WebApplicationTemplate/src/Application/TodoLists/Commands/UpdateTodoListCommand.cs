@@ -95,7 +95,7 @@ public class UpdateTodoListCommandValidator : AbstractValidator<UpdateTodoListCo
             {
                 var exists = await _context.TodoLists.AnyAsync(tl => tl.Title == title, cancellationToken);
                 return !exists;
-            }).WithMessage(id => $"Todo List with id {id} does not exist.")
+            }).WithMessage("A Todo List with the same title already exists.")
             .WithErrorCode("Unique");
     }
 }

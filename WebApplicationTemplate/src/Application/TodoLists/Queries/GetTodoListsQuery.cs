@@ -39,11 +39,21 @@ public class GetTodoListsQueryHandler : IRequestHandler<GetTodoListsQuery, BaseR
             .ApplyFilters(request.Filter)
             .ApplySorting(request.SortBy, request.Descending);
 
-        var result = await query.Select(todoList => new TodoListDto(todoList)).ToListAsync(cancellationToken);
+        var page = request.Page <= 0 ? 1 : request.Page;
+        var pageSize = request.Total <= 0 ? 10 : request.Total;
 
-        var paginatedResult = new PaginatedEnumerable<TodoListDto>(result, result.Count, request.Page, request.Total);
+        var totalCount = await query.CountAsync(cancellationToken);
 
-        return BaseResponse<PaginatedEnumerable<TodoListDto>>.Ok(paginatedResult, $"Succes retrieved {paginatedResult.Items?.Count() ?? 0} todo lists.");
+        var result = await query
+            .Include(t => t.Items)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .Select(todoList => new TodoListDto(todoList))
+            .ToListAsync(cancellationToken);
+
+        var paginatedResult = new PaginatedEnumerable<TodoListDto>(result, totalCount, page, pageSize);
+
+        return BaseResponse<PaginatedEnumerable<TodoListDto>>.Ok(paginatedResult, $"Successfully retrieved {paginatedResult.Items?.Count() ?? 0} todo lists.");
 
     }
 }

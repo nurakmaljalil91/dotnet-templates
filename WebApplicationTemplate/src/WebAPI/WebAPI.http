@@ -1,6 +1,6 @@
 @https = https://localhost:7033
 @http = http://localhost:5133
-@WebAPI_HostAddress = {{https}}
+@WebAPI_HostAddress = https://localhost:7033
 
 # Health - Liveness
 GET {{WebAPI_HostAddress}}/health/live
@@ -47,5 +47,32 @@ Content-Type: application/json
 
 # Delete Todos Item
 DELETE {{WebAPI_HostAddress}}/api/todoItems/1
+
+###
+
+GET {{WebAPI_HostAddress}}/api/todolists?page=1&total=10&sortBy=id&descending=false
+
+###
+
+POST {{WebAPI_HostAddress}}/api/todolists
+Content-Type: application/json
+{
+ "title": "Second to do list"
+}
+
+###
+
+PATCH {{WebAPI_HostAddress}}/api/todolists
+Content-Type: application/json
+
+{
+  "id": 2,
+  "title": "Updated Todo List"
+}
+
+###
+
+@id=2
+DELETE {{WebAPI_HostAddress}}/api/TodoLists/{{id}}
 
 ###

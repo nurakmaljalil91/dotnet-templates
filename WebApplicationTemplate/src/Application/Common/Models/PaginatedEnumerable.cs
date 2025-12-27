@@ -37,8 +37,8 @@ public class PaginatedEnumerable<T>
     /// <param name="pageSize">The number of items per page.</param>
     public PaginatedEnumerable(IEnumerable<T> items, int count, int pageNumber, int pageSize)
     {
-        PageNumber = pageNumber;
-        TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+        PageNumber = pageNumber <= 0 ? 1 : pageNumber;
+        TotalPages = pageSize <= 0 ? 0 : (int)Math.Ceiling(count / (double)pageSize);
         TotalCount = count;
         Items = items;
     }

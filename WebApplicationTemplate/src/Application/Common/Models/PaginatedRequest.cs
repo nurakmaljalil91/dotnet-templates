@@ -9,12 +9,12 @@ public class PaginatedRequest
     /// <summary>
     /// Gets or sets the current page number.
     /// </summary>
-    public int Page { get; set; }
+    public int Page { get; set; } = 1;
 
     /// <summary>
     /// Gets or sets the total number of items per page.
     /// </summary>
-    public int Total { get; set; }
+    public int Total { get; set; } = 10;
 
     /// <summary>
     /// Gets or sets the property name to sort by.

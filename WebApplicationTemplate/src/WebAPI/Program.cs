@@ -65,14 +65,16 @@ try
 
     app.UseHttpsRedirection();
 
-    app.UseAuthorization();
-
     app.UseSerilogRequestLogging(options =>
     {
         options.MessageTemplate = "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms";
     });
 
     app.UseCors("CorsPolicy");
+
+    app.UseAuthentication();
+
+    app.UseAuthorization();
     // Liveness: just "is the process up?"
     app.MapHealthChecks("/health/live", new HealthCheckOptions
     {
@@ -108,10 +110,6 @@ try
             await context.Response.WriteAsync(json);
         }
     });
-
-    app.UseAuthentication();
-
-    app.UseAuthorization();
 
     app.MapControllers();
 

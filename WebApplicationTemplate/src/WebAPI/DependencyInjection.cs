@@ -76,9 +76,9 @@ public static class DependencyInjection
             options.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
         });
 
-        // TODO: Configure Authentication
+        services.AddAuthentication();
 
-        // TODO: Configure Authorization
+        services.AddAuthorization();
 
         services.AddTransient<ExceptionHandlingMiddleware>();
 

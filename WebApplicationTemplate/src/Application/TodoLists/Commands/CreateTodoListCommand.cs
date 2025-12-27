@@ -57,7 +57,7 @@ public class CreateTodoListCommandHandler : IRequestHandler<CreateTodoListComman
 
         var dto = new TodoListDto(entity);
 
-        return BaseResponse<TodoListDto>.Ok(dto, $"Create Todo List with id ${dto.Id}");
+        return BaseResponse<TodoListDto>.Ok(dto, $"Created Todo List with id {dto.Id}");
     }
 }
 

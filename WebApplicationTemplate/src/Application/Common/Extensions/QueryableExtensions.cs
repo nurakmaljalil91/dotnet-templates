@@ -106,7 +106,7 @@ namespace Application.Common.Extensions
                     // Combine OR conditions
                     combinedOrExpression = combinedOrExpression == null 
                         ? combinedAndExpression 
-                        : Expression.OrElse(combinedOrExpression, combinedOrExpression);
+                        : Expression.OrElse(combinedOrExpression, combinedAndExpression);
                 }
             }
 
