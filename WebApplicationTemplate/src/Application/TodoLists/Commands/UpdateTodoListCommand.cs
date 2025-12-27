@@ -6,7 +6,9 @@ using System.Text;
 using Application.Common.Interfaces;
 using Application.TodoLists.Models;
 using Domain.Common;
+using FluentValidation;
 using Mediator;
+using Microsoft.EntityFrameworkCore;
 
 namespace Application.TodoLists.Commands;
 
@@ -67,5 +69,33 @@ public class UpdateTodoListCommandHandler : IRequestHandler<UpdateTodoListComman
         var dto = new TodoListDto(entity);
 
         return BaseResponse<TodoListDto>.Ok(dto, "Todo List updated successfully");
+    }
+}
+
+/// <summary>
+/// Validates the <see cref="UpdateTodoListCommand"/> to ensure the title is provided, does not exceed the maximum length,
+/// and is unique among existing TodoLists.
+/// </summary>
+public class UpdateTodoListCommandValidator : AbstractValidator<UpdateTodoListCommand>
+{
+    private readonly IApplicationDbContext _context;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="UpdateTodoListCommandValidator"/> class.
+    /// </summary>
+    /// <param name="context">The application database context.</param>
+    public UpdateTodoListCommandValidator(IApplicationDbContext context)
+    {
+        _context = context;
+
+        RuleFor(x => x.Title)
+            .NotEmpty().WithMessage("Title is required.")
+            .MaximumLength(200).WithMessage("Title cannot exceed 200 characters.")
+            .MustAsync(async (title, cancellationToken) =>
+            {
+                var exists = await _context.TodoLists.AnyAsync(tl => tl.Title == title, cancellationToken);
+                return !exists;
+            }).WithMessage(id => $"Todo List with id {id} does not exist.")
+            .WithErrorCode("Unique");
     }
 }

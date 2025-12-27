@@ -32,8 +32,8 @@ public class TodoItemsController : ControllerBase
     /// <param name="query">The query parameters for retrieving Todos items.</param>
     /// <returns>A paginated list of Todos items.</returns>
     [HttpGet]
-    public async Task<BaseResponse<PaginatedEnumerable<TodoItemDto>>> GetTodoItems([FromQuery] GetTodoItemsQuery query)
-        => await _mediator.Send(query);
+    public async Task<ActionResult<BaseResponse<PaginatedEnumerable<TodoItemDto>>>> GetTodoItems([FromQuery] GetTodoItemsQuery query)
+        => Ok(await _mediator.Send(query));
 
     /// <summary>
     /// Submits a request to create a new Todos item.
@@ -41,15 +41,33 @@ public class TodoItemsController : ControllerBase
     /// <param name="command"></param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<BaseResponse<TodoItemDto>> CreateTodoItem([FromBody] CreateTodoItemCommand command)
-        => await _mediator.Send(command);
+    public async Task<ActionResult<BaseResponse<TodoItemDto>>> CreateTodoItem([FromBody] CreateTodoItemCommand command)
+    {
+        var result = await _mediator.Send(command);
+
+        if (result.Success)
+        {
+            return CreatedAtAction(nameof(GetTodoItems), new { id = result.Data?.Id }, result);
+        }
+
+        return BadRequest(result);
+    }
 
     /// <summary>
     /// Updates an existing Todos item.
     /// </summary>
     [HttpPatch]
-    public async Task<BaseResponse<TodoItemDto>> UpdateTodoItem([FromBody] UpdateTodoItemComand command)
-        => await _mediator.Send(command);
+    public async Task<ActionResult<BaseResponse<TodoItemDto>>> UpdateTodoItem([FromBody] UpdateTodoItemComand command)
+    {
+        var result = await _mediator.Send(command);
+
+        if (result.Success)
+        {
+            return Ok(result);
+        }
+
+        return BadRequest(result);
+    }
 
     /// <summary>
     /// Deletes a Todos item by its identifier.
@@ -58,6 +76,6 @@ public class TodoItemsController : ControllerBase
     /// <returns>A response indicating the result of the delete operation.</returns>
     [HttpDelete]
     [Route("{id:long}")]
-    public async Task<BaseResponse<object>> DeleteTodoItem(long id)
-        => await _mediator.Send(new DeleteTodoItemCommand(id));
+    public async Task<ActionResult<BaseResponse<object>>> DeleteTodoItem(long id)
+        => Ok(await _mediator.Send(new DeleteTodoItemCommand(id)));
 }
