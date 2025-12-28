@@ -1,9 +1,15 @@
-using Domain.Common;
+﻿using Domain.Common;
 
 namespace Domain.UnitTests.Common;
 
+/// <summary>
+/// Contains unit tests for the <see cref="ApiStatus"/> class.
+/// </summary>
 public class ApiStatusTests
 {
+    /// <summary>
+    /// Verifies that the properties of <see cref="ApiStatus"/> can be set and retrieved.
+    /// </summary>
     [Fact]
     public void Properties_CanBeSet()
     {

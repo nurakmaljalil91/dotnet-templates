@@ -1,9 +1,15 @@
-using Domain.Enums;
+﻿using Domain.Enums;
 
 namespace Domain.UnitTests.Enums;
 
+/// <summary>
+/// Contains unit tests for the <see cref="PriorityLevel"/> enum.
+/// </summary>
 public class PriorityLevelTests
 {
+    /// <summary>
+    /// Verifies that the <see cref="PriorityLevel"/> enum values are as expected.
+    /// </summary>
     [Fact]
     public void Values_AreExpected()
     {

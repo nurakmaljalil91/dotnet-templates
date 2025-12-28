@@ -1,11 +1,17 @@
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.Enums;
 using Domain.ValueObjects;
 
 namespace Domain.UnitTests.Entities;
 
+/// <summary>
+/// Contains unit tests for the <see cref="TodoItem"/> entity.
+/// </summary>
 public class TodoItemTests
 {
+    /// <summary>
+    /// Verifies that a new <see cref="TodoItem"/> has its default property values initialized as expected.
+    /// </summary>
     [Fact]
     public void Defaults_AreInitialized()
     {
@@ -19,6 +25,9 @@ public class TodoItemTests
         Assert.Null(item.List);
     }
 
+    /// <summary>
+    /// Verifies that the properties of <see cref="TodoItem"/> can be set and retrieved as expected.
+    /// </summary>
     [Fact]
     public void Properties_CanBeSet()
     {

@@ -1,7 +1,10 @@
-using Domain.Common;
+﻿using Domain.Common;
 
 namespace Domain.UnitTests.Common;
 
+/// <summary>
+/// Contains unit tests for the <see cref="ValueObject"/> base class and its equality logic.
+/// </summary>
 public class ValueObjectTests
 {
     private sealed class SampleValueObject : ValueObject
@@ -26,8 +29,17 @@ public class ValueObjectTests
 
         public static bool operator !=(SampleValueObject left, SampleValueObject right)
             => NotEqualOperator(left, right);
+
+        public override bool Equals(object? obj)
+            => base.Equals(obj);
+
+        public override int GetHashCode()
+            => base.GetHashCode();
     }
 
+    /// <summary>
+    /// Verifies that two <see cref="SampleValueObject"/> instances with the same component values are considered equal.
+    /// </summary>
     [Fact]
     public void Equals_SameComponents_AreEqual()
     {
@@ -40,6 +52,9 @@ public class ValueObjectTests
         Assert.Equal(a.GetHashCode(), b.GetHashCode());
     }
 
+    /// <summary>
+    /// Verifies that two <see cref="SampleValueObject"/> instances with different component values are not considered equal.
+    /// </summary>
     [Fact]
     public void Equals_DifferentComponents_AreNotEqual()
     {
@@ -51,6 +66,9 @@ public class ValueObjectTests
         Assert.True(a != b);
     }
 
+    /// <summary>
+    /// Verifies correct equality and inequality operator behavior when comparing <see cref="SampleValueObject"/> instances to <c>null</c>.
+    /// </summary>
     [Fact]
     public void Equals_NullHandling_Works()
     {

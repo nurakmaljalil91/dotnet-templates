@@ -6,16 +6,18 @@ using Xunit;
 
 namespace Domain.UnitTests.ValueObjects;
 
+/// <summary>
+/// Unit tests for the <see cref="Colour"/> value object.
+/// </summary>
 public class ColourTests
 {
+    /// <summary>
+    /// Ensures that constructing a <see cref="Colour"/> with a null or empty code defaults to black ("#000000").
+    /// </summary>
+    /// <param name="input">The input color code, which may be null or empty.</param>
     [Theory]
     [InlineData(null)]
     [InlineData("")]
-
-    // If you also want to treat whitespace as default:
-    // [InlineData(" ")]
-    // [InlineData("\t")]
-    // [InlineData("\n")]
     public void Constructor_WhenCodeIsNullOrWhitespace_DefaultsToBlack(string input)
     {
         // Act
@@ -26,6 +28,10 @@ public class ColourTests
         Assert.Equal("#000000", colour.ToString());
     }
 
+    /// <summary>
+    /// Ensures that <see cref="Colour.From(string)"/> returns a <see cref="Colour"/> instance
+    /// when provided with a supported color code.
+    /// </summary>
     [Fact]
     public void From_WhenCodeIsSupported_ReturnsColour()
     {
@@ -38,6 +44,11 @@ public class ColourTests
         Assert.Equal(Colour.White, colour); // value equality
     }
 
+    /// <summary>
+    /// Ensures that <see cref="Colour.From(string)"/> throws an <see cref="UnsupportedColourException"/>
+    /// when provided with an unsupported or invalid color code.
+    /// </summary>
+    /// <param name="code">The input color code to test for exception throwing.</param>
     [Theory]
     [InlineData("#ffffff")] // case-sensitive in your current implementation
     [InlineData("#000000")] // not in supported list
@@ -52,6 +63,9 @@ public class ColourTests
         Assert.NotNull(ex);
     }
 
+    /// <summary>
+    /// Ensures that all static <see cref="Colour"/> properties have the expected color codes.
+    /// </summary>
     [Fact]
     public void StaticColours_HaveExpectedCodes()
     {
@@ -65,6 +79,9 @@ public class ColourTests
         Assert.Equal("#999999", Colour.Grey.Code);
     }
 
+    /// <summary>
+    /// Ensures that <see cref="Colour.ToString()"/> returns the color code.
+    /// </summary>
     [Fact]
     public void ToString_ReturnsCode()
     {
@@ -72,6 +89,9 @@ public class ColourTests
         Assert.Equal("#FFFFFF", colour.ToString());
     }
 
+    /// <summary>
+    /// Ensures that implicit conversion of a <see cref="Colour"/> to <see cref="string"/> returns the color code.
+    /// </summary>
     [Fact]
     public void ImplicitStringConversion_ReturnsCode()
     {
@@ -82,6 +102,9 @@ public class ColourTests
         Assert.Equal("#FFFFFF", code);
     }
 
+    /// <summary>
+    /// Ensures that explicit conversion from <see cref="string"/> to <see cref="Colour"/> validates that the color code is supported.
+    /// </summary>
     [Fact]
     public void ExplicitColourConversion_FromString_ValidatesSupported()
     {
@@ -92,6 +115,10 @@ public class ColourTests
         Assert.Equal(Colour.White, colour);
     }
 
+    /// <summary>
+    /// Ensures that explicit conversion from <see cref="string"/> to <see cref="Colour"/> throws an <see cref="UnsupportedColourException"/>
+    /// when the color code is not supported.
+    /// </summary>
     [Fact]
     public void ExplicitColourConversion_FromString_WhenUnsupported_Throws()
     {
@@ -101,6 +128,9 @@ public class ColourTests
         });
     }
 
+    /// <summary>
+    /// Ensures that two <see cref="Colour"/> instances with the same code are considered equal.
+    /// </summary>
     [Fact]
     public void ValueEquality_SameCode_AreEqual()
     {
@@ -112,6 +142,9 @@ public class ColourTests
         Assert.Equal(a.GetHashCode(), b.GetHashCode());
     }
 
+    /// <summary>
+    /// Ensures that two <see cref="Colour"/> instances with different codes are not considered equal.
+    /// </summary>
     [Fact]
     public void ValueEquality_DifferentCode_AreNotEqual()
     {
@@ -122,6 +155,10 @@ public class ColourTests
         Assert.False(a.Equals(b));
     }
 
+    /// <summary>
+    /// Ensures that all supported <see cref="Colour"/> instances exposed as static properties
+    /// are non-null, have non-empty codes, and that all codes are distinct.
+    /// </summary>
     [Fact]
     public void SupportedColours_AllAreDistinctAndNonNull()
     {

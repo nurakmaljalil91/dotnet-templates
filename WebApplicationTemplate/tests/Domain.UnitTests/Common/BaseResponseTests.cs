@@ -1,10 +1,17 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Domain.Common;
 
 namespace Domain.UnitTests.Common;
 
+/// <summary>
+/// Unit tests for the <see cref="BaseResponse{T}"/> class.
+/// </summary>
 public class BaseResponseTests
 {
+    /// <summary>
+    /// Verifies that <see cref="BaseResponse{T}.Ok(T, string?)"/> sets <see cref="BaseResponse{T}.Success"/> to true,
+    /// assigns the provided data and message, and leaves <see cref="BaseResponse{T}.Errors"/> as null.
+    /// </summary>
     [Fact]
     public void Ok_SetsSuccessDataAndMessage()
     {
@@ -18,6 +25,11 @@ public class BaseResponseTests
         Assert.Null(response.Errors);
     }
 
+    /// <summary>
+    /// Verifies that <see cref="BaseResponse{T}.Fail(string, System.Collections.Generic.IReadOnlyDictionary{string, string[]})"/>
+    /// sets <see cref="BaseResponse{T}.Success"/> to false, assigns the provided message and errors,
+    /// and leaves <see cref="BaseResponse{T}.Data"/> as null.
+    /// </summary>
     [Fact]
     public void Fail_SetsFailureMessageAndErrors()
     {

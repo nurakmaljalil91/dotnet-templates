@@ -1,14 +1,20 @@
-using Domain.Common;
+﻿using Domain.Common;
 using NodaTime;
 
 namespace Domain.UnitTests.Common;
 
+/// <summary>
+/// Unit tests for <see cref="BaseAuditableEntity"/> and its properties.
+/// </summary>
 public class BaseAuditableEntityTests
 {
     private sealed class TestAuditableEntity : BaseAuditableEntity
     {
     }
 
+    /// <summary>
+    /// Verifies that all properties of <see cref="BaseAuditableEntity"/> can be set and retrieved correctly.
+    /// </summary>
     [Fact]
     public void Properties_CanBeSet()
     {

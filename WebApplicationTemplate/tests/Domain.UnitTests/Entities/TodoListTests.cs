@@ -1,10 +1,16 @@
-using Domain.Entities;
+﻿using Domain.Entities;
 using Domain.ValueObjects;
 
 namespace Domain.UnitTests.Entities;
 
+/// <summary>
+/// Contains unit tests for the <see cref="TodoList"/> entity.
+/// </summary>
 public class TodoListTests
 {
+    /// <summary>
+    /// Verifies that the default values of a new <see cref="TodoList"/> instance are initialized as expected.
+    /// </summary>
     [Fact]
     public void Defaults_AreInitialized()
     {
@@ -16,6 +22,9 @@ public class TodoListTests
         Assert.Null(list.Title);
     }
 
+    /// <summary>
+    /// Verifies that the properties of <see cref="TodoList"/> can be set and retrieved as expected.
+    /// </summary>
     [Fact]
     public void Properties_CanBeSet()
     {
