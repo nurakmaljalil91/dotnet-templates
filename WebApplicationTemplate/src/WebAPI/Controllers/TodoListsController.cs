@@ -4,7 +4,7 @@ using Application.TodoLists.Models;
 using Application.TodoLists.Queries;
 using Domain.Common;
 using Mediator;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -14,6 +14,7 @@ namespace WebAPI.Controllers;
 /// </summary>
 [Route("api/[controller]")]
 [ApiController]
+[AllowAnonymous]
 public class TodoListsController : ControllerBase
 {
     private readonly IMediator _mediator;

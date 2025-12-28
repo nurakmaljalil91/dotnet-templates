@@ -4,6 +4,7 @@ using Application.TodoItems.Models;
 using Application.TodoItems.Queries;
 using Domain.Common;
 using Mediator;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -13,6 +14,7 @@ namespace WebAPI.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
+[Authorize(Roles = "Admin")]
 public class TodoItemsController : ControllerBase
 {
     private readonly IMediator _mediator;

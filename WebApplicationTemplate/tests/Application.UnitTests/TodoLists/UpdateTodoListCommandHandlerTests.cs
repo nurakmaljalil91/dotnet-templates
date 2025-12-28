@@ -11,7 +11,7 @@ public class UpdateTodoListCommandHandlerTests
 {
     /// <summary>
     /// Verifies that <see cref="UpdateTodoListCommandHandler.Handle"/> throws a <see cref="NotFoundException"/>
-    /// when the specified todo list does not exist.
+    /// when the specified todos list does not exist.
     /// </summary>
     [Fact]
     public async Task Handle_WhenListMissing_ThrowsNotFoundException()

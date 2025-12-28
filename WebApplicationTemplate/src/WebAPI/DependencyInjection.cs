@@ -4,6 +4,14 @@ using NSwag.Generation.Processors.Security;
 using WebAPI.Middlewares;
 using WebAPI.Services;
 
+using System.Security.Claims;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Policy;
+using Microsoft.IdentityModel.Tokens;
+using WebAPI.Authorization;
+
 namespace WebAPI;
 
 /// <summary>
@@ -67,7 +75,9 @@ public static class DependencyInjection
             // Add JWT token authorization
             options.AddSecurity("JWT", Enumerable.Empty<string>(), new OpenApiSecurityScheme
             {
-                Type = OpenApiSecuritySchemeType.ApiKey,
+                Type = OpenApiSecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
                 Name = "Authorization",
                 In = OpenApiSecurityApiKeyLocation.Header,
                 Description = "Type into the text box: Bearer {your JWT token}."
@@ -76,9 +86,37 @@ public static class DependencyInjection
             options.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
         });
 
-        services.AddAuthentication();
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                var jwtSection = configuration.GetSection("Jwt");
+                var issuer = jwtSection["Issuer"];
+                var audience = jwtSection["Audience"];
+                var key = jwtSection["Key"];
 
-        services.AddAuthorization();
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = issuer,
+                    ValidAudience = audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key ?? string.Empty)),
+                    NameClaimType = ClaimTypes.NameIdentifier,
+                    RoleClaimType = ClaimTypes.Role
+                };
+            });
+
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+            options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
+        });
+
+        services.AddSingleton<IAuthorizationMiddlewareResultHandler, CustomAuthorizationMiddlewareResultHandler>();
 
         services.AddTransient<ExceptionHandlingMiddleware>();
 

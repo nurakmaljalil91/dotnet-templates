@@ -43,6 +43,17 @@ public sealed class ExceptionHandlingMiddleware: IMiddleware
             await context.Response.WriteAsync(
                 JsonSerializer.Serialize(response, JsonOptions));
         }
+        catch (UnauthorizedAccessException)
+        {
+            context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+            context.Response.ContentType = "application/json";
+
+            var response = BaseResponse<object>.Fail(
+                message: "Unauthorized.");
+
+            await context.Response.WriteAsync(
+                JsonSerializer.Serialize(response, JsonOptions));
+        }
         catch (ForbiddenAccessException ex)
         {
             context.Response.StatusCode = (int)HttpStatusCode.Forbidden;

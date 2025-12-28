@@ -79,7 +79,7 @@ try
     app.MapHealthChecks("/health/live", new HealthCheckOptions
     {
         Predicate = _ => false // don't run any checks, always "Healthy" if app is running
-    });
+    }).AllowAnonymous();
 
     // Readiness: run all registered checks (DB, etc.)
     app.MapHealthChecks("/health/ready", new HealthCheckOptions
@@ -109,7 +109,7 @@ try
 
             await context.Response.WriteAsync(json);
         }
-    });
+    }).AllowAnonymous();
 
     app.MapControllers();
 
