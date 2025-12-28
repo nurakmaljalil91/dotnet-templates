@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Domain.Common;
 using Mediator;
@@ -51,7 +52,7 @@ public class DeleteTodoItemCommandHandler : IRequestHandler<DeleteTodoItemComman
         var entity = await _context.TodoItems.FindAsync(new object[] { request.Id }, cancellationToken);
         if (entity == null)
         {
-            return BaseResponse<object>.Fail("Todo item not found.");
+            throw new NotFoundException("Todo item not found.");
         }
         _context.TodoItems.Remove(entity);
         await _context.SaveChangesAsync(cancellationToken);

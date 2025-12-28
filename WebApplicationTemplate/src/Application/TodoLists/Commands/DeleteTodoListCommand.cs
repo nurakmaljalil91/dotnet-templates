@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Domain.Common;
 using Mediator;
@@ -45,7 +46,7 @@ public class DeleteTodoListCommandHandler : IRequestHandler<DeleteTodoListComman
         var entity = await _context.TodoLists.FindAsync(new object[] { request.Id }, cancellationToken);
         if (entity == null)
         {
-            return BaseResponse<string>.Fail("Todo List not found.");
+            throw new NotFoundException("Todo List not found.");
         }
         _context.TodoLists.Remove(entity);
         await _context.SaveChangesAsync(cancellationToken);

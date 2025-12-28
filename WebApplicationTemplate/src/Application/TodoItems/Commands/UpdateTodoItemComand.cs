@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.TodoItems.Models;
 using Domain.Common;
@@ -53,7 +54,7 @@ public class UpdateTodoItemCommandHandler : IRequestHandler<UpdateTodoItemComand
 
         if (entity == null)
         {
-            return BaseResponse<TodoItemDto>.Fail("Todo item not found.");
+            throw new NotFoundException("Todo item not found.");
         }
 
         entity.Title = request.Title ?? entity.Title;

@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.TodoLists.Models;
 using Domain.Common;
@@ -59,7 +60,7 @@ public class UpdateTodoListCommandHandler : IRequestHandler<UpdateTodoListComman
 
         if (entity == null)
         {
-            return BaseResponse<TodoListDto>.Fail($"Todo List with id {request.Id} is not found");
+            throw new NotFoundException($"Todo List with id {request.Id} is not found");
         }
 
         entity.Title = request.Title ?? entity.Title;

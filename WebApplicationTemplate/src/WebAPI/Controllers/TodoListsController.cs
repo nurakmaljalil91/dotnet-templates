@@ -48,11 +48,7 @@ public class TodoListsController : ControllerBase
     public async Task<ActionResult<BaseResponse<TodoListDto>>> CreateTodoList([FromBody] CreateTodoListCommand command)
     {
         var result = await _mediator.Send(command);
-        if (result.Success)
-        {
-            return CreatedAtAction(nameof(GetAllTodoLists), new { id = result.Data?.Id }, result);
-        }
-        return BadRequest(result);
+        return CreatedAtAction(nameof(GetAllTodoLists), new { id = result.Data?.Id }, result);
     }
 
     /// <summary>
@@ -66,11 +62,7 @@ public class TodoListsController : ControllerBase
     public async Task<ActionResult<BaseResponse<TodoListDto>>> UpdateTodoList([FromBody] UpdateTodoListCommand command)
     {
         var result = await _mediator.Send(command);
-        if (result.Success)
-        {
-            return Ok(result);
-        }
-        return BadRequest(result);
+        return Ok(result);
     }
 
     /// <summary>
@@ -85,11 +77,6 @@ public class TodoListsController : ControllerBase
     {
         var command = new DeleteTodoListCommand { Id = id };
         var result = await _mediator.Send(command);
-        if (result.Success)
-        {
-            return Ok(result);
-
-        }
-        return BadRequest(result);
+        return Ok(result);
     }
 }

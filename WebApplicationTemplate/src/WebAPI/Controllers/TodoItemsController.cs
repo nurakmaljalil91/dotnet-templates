@@ -45,12 +45,7 @@ public class TodoItemsController : ControllerBase
     {
         var result = await _mediator.Send(command);
 
-        if (result.Success)
-        {
-            return CreatedAtAction(nameof(GetTodoItems), new { id = result.Data?.Id }, result);
-        }
-
-        return BadRequest(result);
+        return CreatedAtAction(nameof(GetTodoItems), new { id = result.Data?.Id }, result);
     }
 
     /// <summary>
@@ -61,12 +56,7 @@ public class TodoItemsController : ControllerBase
     {
         var result = await _mediator.Send(command);
 
-        if (result.Success)
-        {
-            return Ok(result);
-        }
-
-        return BadRequest(result);
+        return Ok(result);
     }
 
     /// <summary>
@@ -80,11 +70,6 @@ public class TodoItemsController : ControllerBase
     {
         var result = await _mediator.Send(new DeleteTodoItemCommand(id));
 
-        if (result.Success)
-        {
-            return Ok(result);
-        }
-
-        return BadRequest(result);
+        return Ok(result);
     }
 }
