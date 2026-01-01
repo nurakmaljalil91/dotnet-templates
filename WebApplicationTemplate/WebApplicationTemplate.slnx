@@ -17,5 +17,8 @@
   <Folder Name="/tests/">
     <Project Path="tests/Application.UnitTests/Application.UnitTests.csproj" Id="eda9f04a-31a6-4a8b-82cb-0894fb5290ca" />
     <Project Path="tests/Domain.UnitTests/Domain.UnitTests.csproj" Id="5078c608-e9a0-4f1d-b5bc-5007c8d79908" />
+    <Project Path="tests/Infrastructure.UnitTests/Infrastructure.UnitTests.csproj" Id="16641e9f-3370-4a18-a4fc-8d231cb55a93" />
+    <Project Path="tests/IntegrationTests/IntegrationTests.csproj" Id="613438a9-89b7-4be6-bc22-038d94e48609" />
+    <Project Path="tests/WebAPI.UnitTests/WebAPI.UnitTests.csproj" Id="fad641e1-c1df-4a6c-838f-19cfc05f13ac" />
   </Folder>
 </Solution>
