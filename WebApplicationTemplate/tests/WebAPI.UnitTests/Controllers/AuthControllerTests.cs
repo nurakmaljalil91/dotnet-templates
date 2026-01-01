@@ -45,7 +45,7 @@ public class AuthControllerTests
         {
             ["Jwt:Issuer"] = "issuer",
             ["Jwt:Audience"] = "audience",
-            ["Jwt:Key"] = "super-secret-key-1234567890"
+            ["Jwt:Key"] = "super-secret-key-1234567890-super-secret"
         }));
 
         var result = controller.Login(new LoginRequest("user", "user@example.com", null));
@@ -68,7 +68,7 @@ public class AuthControllerTests
         {
             ["Jwt:Issuer"] = "issuer",
             ["Jwt:Audience"] = "audience",
-            ["Jwt:Key"] = "super-secret-key-1234567890"
+            ["Jwt:Key"] = "super-secret-key-1234567890-super-secret"
         }));
 
         var result = controller.Login(new LoginRequest("user", null, new[] { "Admin", "Support" }));

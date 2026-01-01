@@ -36,11 +36,7 @@ public sealed class CorrelationIdMiddleware
         context.Items[ItemKey] = correlationId;
 
         // Add to response header for client visibility
-        context.Response.OnStarting(() =>
-        {
-            context.Response.Headers[HeaderKey] = correlationId.ToString();
-            return Task.CompletedTask;
-        });
+        context.Response.Headers[HeaderKey] = correlationId;
 
         // Enrich Serilog scope so all logs include the correlation id
         using (LogContext.PushProperty("CorrelationId", correlationId))
