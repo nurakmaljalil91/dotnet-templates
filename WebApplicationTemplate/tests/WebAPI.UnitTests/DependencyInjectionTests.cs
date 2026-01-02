@@ -9,11 +9,16 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WebAPI.UnitTests;
 
+#nullable enable
+
 /// <summary>
 /// Unit tests for WebAPI service registrations.
 /// </summary>
 public class DependencyInjectionTests
 {
+    /// <summary>
+    /// Verifies that <see cref="WebAPI"/> registers core WebAPI services.
+    /// </summary>
     [Fact]
     public void AddWebAPIServices_RegistersCoreServices()
     {
@@ -40,3 +45,4 @@ public class DependencyInjectionTests
     private static IConfiguration BuildConfiguration(Dictionary<string, string?> values)
         => new ConfigurationBuilder().AddInMemoryCollection(values).Build();
 }
+#nullable restore

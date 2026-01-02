@@ -32,3 +32,7 @@ dotnet new web-api-template -n MyService --safeName MyService
 ```bash
 dotnet new uninstall .
 ```
+
+## Docker compose (optional)
+
+The `docker-compose.dcproj` file is included for Visual Studio container tooling, but it is not part of the solution by default to avoid requiring Docker Desktop for test runs. If you want it in the solution, add it manually in Visual Studio.

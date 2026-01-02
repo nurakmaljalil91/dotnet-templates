@@ -21,7 +21,4 @@
     <Project Path="tests/IntegrationTests/IntegrationTests.csproj" Id="613438a9-89b7-4be6-bc22-038d94e48609" />
     <Project Path="tests/WebAPI.UnitTests/WebAPI.UnitTests.csproj" Id="fad641e1-c1df-4a6c-838f-19cfc05f13ac" />
   </Folder>
-  <Project Path="docker-compose.dcproj">
-    <Build />
-  </Project>
 </Solution>

@@ -1,7 +1,7 @@
 <Project>
 
-  <!-- Common defaults for all projects in the solution -->
-  <PropertyGroup>
+  <!-- Common defaults for C# projects in the solution -->
+  <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.csproj'">
     <!-- Default target framework for Cerxos services/libs -->
     <!-- You can override this in a specific .csproj if needed -->
     <TargetFramework>net10.0</TargetFramework>
@@ -21,7 +21,7 @@
     <!-- XML docs by default (good for API + Application/Domain) -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
-    <!-- Do not treat warnings as errors by default (we’ll turn it on for Release in targets) -->
+    <!-- Do not treat warnings as errors by default (weï¿½ll turn it on for Release in targets) -->
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 
     <!-- Default encoding / language -->
@@ -29,16 +29,17 @@
   </PropertyGroup>
 
   <!-- Test project specific settings -->
-  <PropertyGroup Condition="'$(IsTestProject)' == 'true'">
-    <!-- Don’t pack test projects -->
+  <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.csproj' and '$(IsTestProject)' == 'true'">
+    <!-- Donï¿½t pack test projects -->
     <IsPackable>false</IsPackable>
     <!-- Usually no need for XML docs on tests -->
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
-  <ItemGroup>
-   <PackageReference Include="SonarAnalyzer.CSharp">
+  <ItemGroup Condition="'$(MSBuildProjectExtension)' == '.csproj'">
+    <PackageReference Include="SonarAnalyzer.CSharp">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
 </Project>
+
