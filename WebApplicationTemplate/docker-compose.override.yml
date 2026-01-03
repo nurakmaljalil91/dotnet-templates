@@ -1,5 +1,5 @@
 services:
-  webapi:
+  webapplicationtemplate:
     # Development-only overrides (user secrets, dev certs, and local ports)
     environment:
       - ASPNETCORE_ENVIRONMENT=Development

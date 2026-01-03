@@ -21,6 +21,14 @@
             "replaces": "WebApplicationTemplate",
             "description": "Name for the generated solution and projects",
             "defaultValue": "MyWebApp"
+        },
+        "userSecretsId": {
+            "type": "generated",
+            "generator": "guid",
+            "parameters": {
+                "format": "D"
+            },
+            "replaces": "195cd35c-7c59-442f-a296-468832716656"
         }
     },
     "sources": [

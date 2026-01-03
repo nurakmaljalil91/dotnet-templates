@@ -1,6 +1,6 @@
 services:
-  webapi:
-    image: ${DOCKER_REGISTRY-}webapi
+  webapplicationtemplate:
+    image: ${DOCKER_REGISTRY-}webapplicationtemplate
     build:
       context: .
       dockerfile: Dockerfile

@@ -1,6 +1,6 @@
 services:
-  webapi:
-    image: ${WEBAPI_IMAGE:-webapi:latest}
+  webapplicationtemplate:
+    image: ${WEBAPI_IMAGE:-webapplicationtemplate:latest}
     env_file:
       - ./.env
     environment:
