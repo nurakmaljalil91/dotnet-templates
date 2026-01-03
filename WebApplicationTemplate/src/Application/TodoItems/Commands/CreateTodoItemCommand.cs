@@ -15,6 +15,10 @@ public class CreateTodoItemCommand : IRequest<BaseResponse<TodoItemDto>>
     /// Gets or sets the title of the to-do item.
     /// </summary>
     public string? Title { get; set; }
+    /// <summary>
+    /// Gets or sets the ID of the to-do list to which the item belongs.
+    /// </summary>
+    public long ListId { get; set; }
 }
 
 /// <inheritdoc />
@@ -36,7 +40,8 @@ public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemComman
     {
         var entity = new TodoItem
         {
-            Title = request.Title
+            Title = request.Title,
+            ListId = request.ListId
         };
 
         _context.TodoItems.Add(entity);
@@ -64,5 +69,9 @@ public class CreateTodoItemCommandValidator : AbstractValidator<CreateTodoItemCo
             .MaximumLength(200)
             .WithMessage("Title cannot exceed 200 characters")
             .NotEmpty().WithMessage("Title is required.");
+
+        RuleFor(m => m.ListId)
+            .GreaterThan(0)
+            .WithMessage("ListId must be greater than 0.");
     }
 }

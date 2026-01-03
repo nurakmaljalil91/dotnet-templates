@@ -1,7 +1,7 @@
 @https = https://localhost:7033
 @http = http://localhost:5133
 @WebAPI_HostAddress = https://localhost:7033
-@bearerToken =
+@bearerToken = 
 
 # Health - Liveness
 GET {{WebAPI_HostAddress}}/health/live
@@ -33,6 +33,7 @@ POST {{WebAPI_HostAddress}}/api/todoItems
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 {
+  "listId": 1,
   "title": "New Todo Item"
 }
 

@@ -41,8 +41,12 @@ public static class DependencyInjection
 
         if (useInMemoryDatabase)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseInMemoryDatabase("MemoryDb"));
+            services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
+            {
+                options
+                    .UseInMemoryDatabase("MemoryDb")
+                    .AddInterceptors(serviceProvider.GetServices<ISaveChangesInterceptor>());
+            });
         }
         else
         {
@@ -57,13 +61,18 @@ public static class DependencyInjection
                 tags: new[] { "ready"
                 });
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(defaultConnection,
-                    builder =>
-                    {
-                        builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName);
-                        builder.UseNodaTime();
-                    }));
+            services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
+            {
+                options
+                    .UseNpgsql(defaultConnection,
+                        builder =>
+                        {
+                            builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName);
+                            builder.UseNodaTime();
+                        })
+                    .UseSnakeCaseNamingConvention()
+                    .AddInterceptors(serviceProvider.GetServices<ISaveChangesInterceptor>());
+            });
         }
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());

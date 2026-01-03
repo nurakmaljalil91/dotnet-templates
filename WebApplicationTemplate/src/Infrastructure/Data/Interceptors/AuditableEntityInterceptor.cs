@@ -65,10 +65,10 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
         {
             if (entry.State == EntityState.Added)
             {
-                entry.Entity.CreatedBy = _user.Username;
+                entry.Entity.CreatedBy = _user.Username ?? "Default";
                 entry.Entity.CreatedDate = utcNow;
             }
-            entry.Entity.UpdatedBy = _user.Username;
+            entry.Entity.UpdatedBy = _user.Username ?? "Default";
             entry.Entity.UpdatedDate = utcNow;
         }
     }
