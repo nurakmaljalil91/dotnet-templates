@@ -29,6 +29,24 @@
                 "format": "D"
             },
             "replaces": "195cd35c-7c59-442f-a296-468832716656"
+        },
+        "httpPort": {
+            "type": "generated",
+            "generator": "port",
+            "parameters": {
+                "low": 5000,
+                "high": 5300
+            },
+            "replaces": "5133"
+        },
+        "httpsPort": {
+            "type": "generated",
+            "generator": "port",
+            "parameters": {
+                "low": 7000,
+                "high": 7300
+            },
+            "replaces": "7033"
         }
     },
     "sources": [
