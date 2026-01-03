@@ -19,7 +19,7 @@ public class GetTodoItemsQuery : PaginatedRequest, IRequest<BaseResponse<Paginat
 }
 
 /// <summary>
-/// Handles the retrieval of paginated todoz items based on the specified query parameters.
+/// Handles the retrieval of paginated todos items based on the specified query parameters.
 /// </summary>
 public record GetTodoItemsQueryHandler : IRequestHandler<GetTodoItemsQuery, BaseResponse<PaginatedEnumerable<TodoItemDto>>>
 {
