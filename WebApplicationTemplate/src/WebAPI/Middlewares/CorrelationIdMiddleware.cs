@@ -23,7 +23,7 @@ public sealed class CorrelationIdMiddleware
     }
 
     /// <summary>
-    /// Handles the incoming HTTP request, sets or creates a correlation ID, 
+    /// Handles the incoming HTTP request, sets or creates a correlation ID,
     /// stores it in the context, adds it to the response header, and enriches Serilog logs.
     /// </summary>
     /// <param name="context">The current HTTP context for the request.</param>
@@ -35,7 +35,7 @@ public sealed class CorrelationIdMiddleware
         // Store in HttpContext.Items for downstream components
         context.Items[ItemKey] = correlationId;
 
-        // Add to response header for client visibility
+        // Add to the response header for client visibility
         context.Response.Headers[HeaderKey] = correlationId;
 
         // Enrich Serilog scope so all logs include the correlation id
