@@ -4,6 +4,7 @@
      <AssemblyName>WebAPI</AssemblyName>
      <UserSecretsId>195cd35c-7c59-442f-a296-468832716656</UserSecretsId>
      <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+     <Dockerfile>..\..\Dockerfile</Dockerfile>
      <DockerfileContext>..\..</DockerfileContext>
      <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
