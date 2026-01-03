@@ -1,17 +1,27 @@
-using System.Net;
+﻿using System.Net;
 using System.Net.Http.Json;
 using Domain.Common;
 
 namespace IntegrationTests;
 
+/// <summary>
+/// Integration tests for the TodoItemsController API endpoints.
+/// </summary>
 [Collection("Integration")]
 public class TodoItemsControllerIntegrationTests : ApiTestBase
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TodoItemsControllerIntegrationTests"/> class.
+    /// </summary>
+    /// <param name="factory">The API factory used to create the test server and client.</param>
     public TodoItemsControllerIntegrationTests(ApiFactory factory)
         : base(factory)
     {
     }
 
+    /// <summary>
+    /// Performs a full integration flow test for the TodoItems API, including get, create, update, and delete operations.
+    /// </summary>
     [Fact]
     public async Task TodoItems_FullFlow_Works()
     {
@@ -25,6 +35,7 @@ public class TodoItemsControllerIntegrationTests : ApiTestBase
 
         var createResponse = await client.PostAsJsonAsync("/api/TodoItems", new
         {
+            ListId = 1,
             Title = "Integration Item"
         });
         Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
