@@ -22,6 +22,7 @@ public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavio
     }
 
     /// <inheritdoc />
+#pragma warning disable S2139 // Log and rethrow is intentional: this behavior is the designated unhandled exception logger
     public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
     {
         try
@@ -37,4 +38,5 @@ public class UnhandledExceptionBehaviour<TRequest, TResponse> : IPipelineBehavio
             throw;
         }
     }
+#pragma warning restore S2139
 }

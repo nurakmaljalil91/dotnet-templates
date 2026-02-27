@@ -1,3 +1,4 @@
+#nullable enable
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -17,6 +18,10 @@ public sealed class AuthController : ControllerBase
 {
     private readonly IConfiguration _configuration;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AuthController"/> class.
+    /// </summary>
+    /// <param name="configuration">The application configuration.</param>
     public AuthController(IConfiguration configuration)
     {
         _configuration = configuration;
@@ -65,12 +70,9 @@ public sealed class AuthController : ControllerBase
 
         if (request.Roles is { Length: > 0 })
         {
-            foreach (var role in request.Roles)
+            foreach (var role in request.Roles.Where(r => !string.IsNullOrWhiteSpace(r)))
             {
-                if (!string.IsNullOrWhiteSpace(role))
-                {
-                    claims.Add(new Claim(ClaimTypes.Role, role));
-                }
+                claims.Add(new Claim(ClaimTypes.Role, role));
             }
         }
         else
@@ -95,6 +97,17 @@ public sealed class AuthController : ControllerBase
     }
 }
 
+/// <summary>
+/// Request body for the login endpoint.
+/// </summary>
+/// <param name="Username">The username to authenticate as.</param>
+/// <param name="Email">The email to authenticate as (used if <paramref name="Username"/> is absent).</param>
+/// <param name="Roles">Optional roles to include in the issued token.</param>
 public sealed record LoginRequest(string? Username, string? Email, string[]? Roles);
 
+/// <summary>
+/// Response payload containing the issued JWT token details.
+/// </summary>
+/// <param name="Token">The JWT bearer token string.</param>
+/// <param name="ExpiresAtUtc">The UTC date/time at which the token expires.</param>
 public sealed record AuthTokenResponse(string Token, DateTime ExpiresAtUtc);

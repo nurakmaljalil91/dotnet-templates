@@ -13,6 +13,7 @@ public sealed class CustomAuthorizationMiddlewareResultHandler : IAuthorizationM
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
     private readonly AuthorizationMiddlewareResultHandler _defaultHandler = new();
 
+    /// <inheritdoc />
     public async Task HandleAsync(
         RequestDelegate next,
         HttpContext context,

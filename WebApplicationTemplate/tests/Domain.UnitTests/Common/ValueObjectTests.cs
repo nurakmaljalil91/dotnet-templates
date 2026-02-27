@@ -1,4 +1,4 @@
-﻿using Domain.Common;
+using Domain.Common;
 
 namespace Domain.UnitTests.Common;
 
@@ -24,12 +24,6 @@ public class ValueObjectTests
             yield return Text!;
         }
 
-        public static bool operator ==(SampleValueObject left, SampleValueObject right)
-            => EqualOperator(left, right);
-
-        public static bool operator !=(SampleValueObject left, SampleValueObject right)
-            => NotEqualOperator(left, right);
-
         public override bool Equals(object? obj)
             => base.Equals(obj);
 
@@ -47,8 +41,7 @@ public class ValueObjectTests
         var b = new SampleValueObject(1, "a");
 
         Assert.True(a.Equals(b));
-        Assert.True(a == b);
-        Assert.False(a != b);
+        Assert.False(a.Equals(null));
         Assert.Equal(a.GetHashCode(), b.GetHashCode());
     }
 
@@ -62,8 +55,6 @@ public class ValueObjectTests
         var b = new SampleValueObject(2, "a");
 
         Assert.False(a.Equals(b));
-        Assert.False(a == b);
-        Assert.True(a != b);
     }
 
     /// <summary>
@@ -73,10 +64,10 @@ public class ValueObjectTests
     public void Equals_NullHandling_Works()
     {
         SampleValueObject? a = null;
-        SampleValueObject? b = null;
         var c = new SampleValueObject(1, "a");
 
-        Assert.True(a == b);
-        Assert.True(a != c);
+        Assert.False(c.Equals(a));
+        Assert.False(c.Equals(null));
     }
 }
+

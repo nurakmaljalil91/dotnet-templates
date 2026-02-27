@@ -9,6 +9,17 @@
     </PropertyGroup>
   </Target>
 
+  <!-- Suppress false-positive CS8669 from xunit source generators and disable doc generation for test projects -->
+  <Target Name="ConfigureTestProjectSettings"
+          BeforeTargets="CoreCompile"
+          Condition="'$(IsTestProject)' == 'true'">
+    <PropertyGroup>
+      <GenerateDocumentationFile>false</GenerateDocumentationFile>
+      <DocumentationFile></DocumentationFile>
+      <NoWarn>$(NoWarn);CS8669;CS1591</NoWarn>
+    </PropertyGroup>
+  </Target>
+
   <!-- Optional: high-level build info message (handy in CI logs) -->
   <Target Name="PrintApplicationBuildInfo"
           BeforeTargets="BeforeBuild">
