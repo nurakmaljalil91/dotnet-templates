@@ -10,7 +10,7 @@ namespace Infrastructure.Data.Interceptors;
 
 /// <summary>
 /// Intercepts EF Core SaveChanges operations to automatically set audit properties
-/// (CreatedBy, CreatedDate, UpdatedBy, UpdatedDate) on entities inheriting from <see cref="Domain.Common.BaseAuditableEntity"/>.
+/// (CreatedBy, CreatedDate, UpdatedBy, UpdatedDate) on entities implementing <see cref="Domain.Common.IAuditableEntity"/>.
 /// </summary>
 public class AuditableEntityInterceptor : SaveChangesInterceptor
 {
@@ -32,7 +32,7 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
 
     /// <summary>
     /// Called asynchronously before EF Core saves changes to the database.
-    /// Updates audit properties on entities inheriting from <see cref="Domain.Common.BaseAuditableEntity"/>.
+    /// Updates audit properties on entities implementing <see cref="Domain.Common.IAuditableEntity"/>.
     /// </summary>
     /// <param name="eventData">The event data containing the <see cref="DbContext"/>.</param>
     /// <param name="result">The interception result.</param>
@@ -49,7 +49,7 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
 
 
     /// <summary>
-    /// Updates audit properties on entities inheriting from <see cref="Domain.Common.BaseAuditableEntity"/>.
+    /// Updates audit properties on entities implementing <see cref="Domain.Common.IAuditableEntity"/>.
     /// </summary>
     /// <param name="context">The <see cref="DbContext"/> whose entities will be updated. If <c>null</c>, no action is taken.</param>
     public void UpdateEntities(DbContext? context)
@@ -57,19 +57,21 @@ public class AuditableEntityInterceptor : SaveChangesInterceptor
         if (context == null) return;
 
         var entries = context.ChangeTracker
-            .Entries<BaseAuditableEntity>()
-            .Where(entry => entry.State is EntityState.Added or EntityState.Modified || entry.HasChangedOwnedEntities());
+            .Entries()
+            .Where(entry => entry.Entity is IAuditableEntity &&
+                            (entry.State is EntityState.Added or EntityState.Modified || entry.HasChangedOwnedEntities()));
 
         var utcNow = _clock.Now;
         foreach (var entry in entries)
         {
+            var auditable = (IAuditableEntity)entry.Entity;
             if (entry.State == EntityState.Added)
             {
-                entry.Entity.CreatedBy = _user.Username ?? "Default";
-                entry.Entity.CreatedDate = utcNow;
+                auditable.CreatedBy = _user.Username ?? "Default";
+                auditable.CreatedDate = utcNow;
             }
-            entry.Entity.UpdatedBy = _user.Username ?? "Default";
-            entry.Entity.UpdatedDate = utcNow;
+            auditable.UpdatedBy = _user.Username ?? "Default";
+            auditable.UpdatedDate = utcNow;
         }
     }
 }

@@ -3,10 +3,11 @@
 /// <summary>
 /// Represents the base entity with a unique identifier.
 /// </summary>
-public abstract class BaseEntity
+/// <typeparam name="TId">The type of the unique identifier (e.g. <see cref="long"/>, <see cref="System.Guid"/>).</typeparam>
+public abstract class BaseEntity<TId>
 {
     /// <summary>
     /// Gets or sets the unique identifier for the entity.
     /// </summary>
-    public long Id { get; set; }
+    public TId Id { get; set; } = default!;
 }

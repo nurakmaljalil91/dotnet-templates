@@ -3,16 +3,16 @@
 namespace Domain.UnitTests.Common;
 
 /// <summary>
-/// Unit tests for the <see cref="BaseEntity"/> class.
+/// Unit tests for the <see cref="BaseEntity{TId}"/> class.
 /// </summary>
 public class BaseEntityTests
 {
-    private sealed class TestEntity : BaseEntity
+    private sealed class TestEntity : BaseEntity<long>
     {
     }
 
     /// <summary>
-    /// Verifies that the <see cref="BaseEntity.Id"/> property can be set and retrieved.
+    /// Verifies that the <see cref="BaseEntity{TId}.Id"/> property can be set and retrieved.
     /// </summary>
     [Fact]
     public void Id_CanBeSet()

@@ -6,7 +6,8 @@ namespace Domain.Common;
 /// <summary>
 /// Represents an auditable entity with creation and update metadata.
 /// </summary>
-public abstract class BaseAuditableEntity : BaseEntity
+/// <typeparam name="TId">The type of the unique identifier (e.g. <see cref="long"/>, <see cref="System.Guid"/>).</typeparam>
+public abstract class BaseAuditableEntity<TId> : BaseEntity<TId>, IAuditableEntity
 {
     /// <summary>
     /// Gets or sets the date and time when the entity was created.

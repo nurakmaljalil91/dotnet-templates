@@ -4,16 +4,16 @@ using NodaTime;
 namespace Domain.UnitTests.Common;
 
 /// <summary>
-/// Unit tests for <see cref="BaseAuditableEntity"/> and its properties.
+/// Unit tests for <see cref="BaseAuditableEntity{TId}"/> and its properties.
 /// </summary>
 public class BaseAuditableEntityTests
 {
-    private sealed class TestAuditableEntity : BaseAuditableEntity
+    private sealed class TestAuditableEntity : BaseAuditableEntity<long>
     {
     }
 
     /// <summary>
-    /// Verifies that all properties of <see cref="BaseAuditableEntity"/> can be set and retrieved correctly.
+    /// Verifies that all properties of <see cref="BaseAuditableEntity{TId}"/> can be set and retrieved correctly.
     /// </summary>
     [Fact]
     public void Properties_CanBeSet()
