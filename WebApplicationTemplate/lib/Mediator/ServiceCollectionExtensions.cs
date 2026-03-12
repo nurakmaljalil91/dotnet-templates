@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Mediator;
@@ -16,7 +14,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddMediator(this IServiceCollection services, params Assembly[] assembliesToScan)
     {
-        services.AddSingleton<IMediator, Mediator>();
+        services.AddScoped<IMediator, Mediator>();
 
         var assemblies = assembliesToScan?.Length > 0 ? assembliesToScan : AppDomain.CurrentDomain.GetAssemblies();
 
@@ -42,21 +40,32 @@ public static class ServiceCollectionExtensions
                 // IRequestHandler<TRequest, TResponse>
                 if (@interface.IsGenericType && @interface.GetGenericTypeDefinition() == typeof(IRequestHandler<,>))
                 {
-                    services.AddTransient(@interface, type);
+                    RegisterService(services, @interface, type);
                 }
 
                 // INotificationHandler<TNotification>
                 if (@interface.IsGenericType && @interface.GetGenericTypeDefinition() == typeof(INotificationHandler<>))
                 {
-                    services.AddTransient(@interface, type);
+                    RegisterService(services, @interface, type);
                 }
 
                 // IPipelineBehavior<TRequest, TResponse>
                 if (@interface.IsGenericType && @interface.GetGenericTypeDefinition() == typeof(IPipelineBehavior<,>))
                 {
-                    services.AddTransient(@interface, type);
+                    RegisterService(services, @interface, type);
                 }
             }
         }
+    }
+
+    private static void RegisterService(IServiceCollection services, Type serviceType, Type implementationType)
+    {
+        if (implementationType.IsGenericTypeDefinition)
+        {
+            services.AddTransient(serviceType.GetGenericTypeDefinition(), implementationType);
+            return;
+        }
+
+        services.AddTransient(serviceType, implementationType);
     }
 }

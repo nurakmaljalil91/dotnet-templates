@@ -1,16 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
-using Application.Common.Behaviours;
-using Application.Common.Models;
-using Application.TodoItems.Commands;
-using Application.TodoItems.Models;
-using Application.TodoItems.Queries;
-using Application.TodoLists.Commands;
-using Application.TodoLists.Models;
-using Application.TodoLists.Queries;
-using Domain.Common;
 using FluentValidation;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,18 +18,7 @@ public static class DependencyInjection
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-        services.AddScoped<IMediator, Mediator.Mediator>();
-        services.AddScoped<IRequestHandler<GetTodoItemsQuery, BaseResponse<PaginatedEnumerable<TodoItemDto>>>,
-            GetTodoItemsQueryHandler>();
-        services.AddScoped<IRequestHandler<CreateTodoItemCommand, BaseResponse<TodoItemDto>>, CreateTodoItemCommandHandler>();
-        services.AddScoped<IRequestHandler<UpdateTodoItemComand, BaseResponse<TodoItemDto>>, UpdateTodoItemCommandHandler>();
-        services.AddScoped<IRequestHandler<DeleteTodoItemCommand, BaseResponse<object>>, DeleteTodoItemCommandHandler>();
-        services.AddScoped<IRequestHandler<GetTodoListsQuery, BaseResponse<PaginatedEnumerable<TodoListDto>>>,
-            GetTodoListsQueryHandler>();
-        services.AddScoped<IRequestHandler<CreateTodoListCommand, BaseResponse<TodoListDto>>, CreateTodoListCommandHandler>();
-        services.AddScoped<IRequestHandler<UpdateTodoListCommand, BaseResponse<TodoListDto>>, UpdateTodoListCommandHandler>();
-        services.AddScoped<IRequestHandler<DeleteTodoListCommand, BaseResponse<string>>, DeleteTodoListCommandHandler>();
+        services.AddMediator(Assembly.GetExecutingAssembly());
         return services;
     }
 }
