@@ -18,7 +18,8 @@ public class ApiFactory : WebApplicationFactory<Program>
                 ["Jwt:Issuer"] = "IntegrationTests",
                 ["Jwt:Audience"] = "IntegrationTests",
                 ["Jwt:Key"] = "integration-tests-super-secret-key-1234567890",
-                ["Jwt:ExpiryMinutes"] = "60"
+                ["Jwt:ExpiryMinutes"] = "60",
+                ["buildVersion"] = "integration-test-build"
             };
 
             config.AddInMemoryCollection(settings);
