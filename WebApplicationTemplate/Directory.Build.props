@@ -1,5 +1,10 @@
 <Project>
 
+  <!-- Workaround for NETSDK1226 with .NET 10 SDK preview builds -->
+  <PropertyGroup>
+    <AllowMissingPrunePackageData>true</AllowMissingPrunePackageData>
+  </PropertyGroup>
+
   <!-- Common defaults for C# projects in the solution -->
   <PropertyGroup Condition="'$(MSBuildProjectExtension)' == '.csproj'">
     <!-- Default target framework for Cerxos services/libs -->
